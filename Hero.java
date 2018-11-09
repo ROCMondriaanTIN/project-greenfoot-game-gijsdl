@@ -22,7 +22,7 @@ public class Hero extends Mover {
     @Override
     public void act() {
         handleInput();
-        
+
         velocityX *= drag;
         velocityY += acc;
         if (velocityY > gravity) {
@@ -39,8 +39,14 @@ public class Hero extends Mover {
     }
 
     public void handleInput() {
+
         if (Greenfoot.isKeyDown("space")) {
-            velocityY = -10;
+            for (Tile title : getIntersectingObjects(Tile.class)) {
+                if (title.isSolid) {
+                    velocityY = -10;
+                    break;
+                }
+            }
         }
 
         if (Greenfoot.isKeyDown("left")) {

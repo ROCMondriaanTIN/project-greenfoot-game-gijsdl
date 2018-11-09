@@ -87,7 +87,7 @@ public class CollisionEngine {
     }
 
     /**
-     * This methode will detect if a Mover is overlapping with the tiles
+     * This methode will if a Mover is overlapping with the tiles
      *
      * @param mover A Mover class or a extend of it.
      * @param actorLeft The far most left x position of the Mover.
@@ -219,6 +219,7 @@ public class CollisionEngine {
         }
         return false;
     }
+    
 
     /**
      * Calculate the half width of a Actor
