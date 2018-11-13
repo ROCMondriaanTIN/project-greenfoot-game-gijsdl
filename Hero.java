@@ -12,9 +12,9 @@ public class Hero extends Mover {
     private final double drag;
     private int width;
     private boolean isOnGround;
-    int walkStatus = 1;
-    int status = 0;
-    String direction = "right";
+    private int walkStatus = 1;
+    private int status = 0;
+    private String direction = "right";
 
     public Hero(String image, int width, int heigth) {
         super();
@@ -141,9 +141,6 @@ mirror();
     public void mirror() {
         if (direction.equals("left")) {
             getImage().mirrorHorizontally();
-//        } else if (direction.equals("left")) {
-//            
-
         }
     }
 
