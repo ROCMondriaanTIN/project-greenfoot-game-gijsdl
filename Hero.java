@@ -97,7 +97,7 @@ public class Hero extends Mover {
 
     public void animationWalk(int width, int heigth, int player) {
 
-        if (status == 3) {
+        if (status == 2) {
             if (walkStatus >= 11) {
                 walkStatus = 1;
             }
