@@ -25,7 +25,7 @@ public class Hero extends Mover {
     @Override
     public void act() {
         handleInput();
-        animationWalk(getWidth(), getHeight(), 1);
+        
         velocityX *= drag;
         velocityY += acc;
         if (velocityY > gravity) {
@@ -66,7 +66,7 @@ public class Hero extends Mover {
         if (Greenfoot.isKeyDown("space")) {
 
             if (isOnGround) {
-                velocityY = -10;
+                velocityY = -15;
                 animationJump(getWidth(), getHeight(), 1);
             }
 
@@ -74,10 +74,10 @@ public class Hero extends Mover {
 
         if (Greenfoot.isKeyDown("left")) {
             velocityX = -10;
-            animationWalk(getWidth(), getHeight(), 1);
+            animationWalk(getWidth(), getHeight(), 1, false);
         } else if (Greenfoot.isKeyDown("right")) {
             velocityX = 10;
-            animationWalk(getWidth(), getHeight(), 1);
+            animationWalk(getWidth(), getHeight(), 1, true);
         } else {
             animationStand(getWidth(), getHeight(), 1);
         }
@@ -85,21 +85,26 @@ public class Hero extends Mover {
     int walkStatus = 1;
     int status = 0;
 
-    public void animationWalk(int width, int heigth, int player) {
+    public void animationWalk(int width, int heigth, int player, boolean right) {
 
         if (status == 3) {
             if (walkStatus >= 11) {
                 walkStatus = 1;
             }
-
+            
             if (isOnGround) {
                 setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk"
                         + walkStatus + ".png");
-
             }else{
                 setImage("Player/p" + player + "_jump.png");
             }
-
+            if (right){
+                right = false;
+                
+            }else if (!right){
+                right = true;
+                getImage().mirrorHorizontally();
+            }
             walkStatus++;
             status = 0;
         } else {
