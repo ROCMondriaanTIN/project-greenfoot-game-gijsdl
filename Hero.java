@@ -12,6 +12,9 @@ public class Hero extends Mover {
     private final double drag;
     private int width;
     private boolean isOnGround;
+    int walkStatus = 1;
+    int status = 0;
+    String direction = "right";
 
     public Hero(String image, int width, int heigth) {
         super();
@@ -25,7 +28,7 @@ public class Hero extends Mover {
     @Override
     public void act() {
         handleInput();
-        
+
         velocityX *= drag;
         velocityY += acc;
         if (velocityY > gravity) {
@@ -35,6 +38,12 @@ public class Hero extends Mover {
 
         for (Actor enemy : getIntersectingObjects(Enemy.class)) {
             if (enemy != null) {
+                getWorld().removeObject(this);
+                break;
+            }
+        }
+        for (Tile tile : getIntersectingObjects(Tile.class)) {
+            if (tile.getImage().toString().contains("liquid") && !tile.getImage().toString().contains("Top")) {
                 getWorld().removeObject(this);
                 break;
             }
@@ -74,49 +83,45 @@ public class Hero extends Mover {
 
         if (Greenfoot.isKeyDown("left")) {
             velocityX = -10;
-            animationWalk(getWidth(), getHeight(), 1, false);
+            direction = "left";
+            animationWalk(getWidth(), getHeight(), 1);
+
         } else if (Greenfoot.isKeyDown("right")) {
             velocityX = 10;
-            animationWalk(getWidth(), getHeight(), 1, true);
+            direction = "right";
+            animationWalk(getWidth(), getHeight(), 1);
         } else {
             animationStand(getWidth(), getHeight(), 1);
         }
     }
-    int walkStatus = 1;
-    int status = 0;
 
-    public void animationWalk(int width, int heigth, int player, boolean right) {
+    public void animationWalk(int width, int heigth, int player) {
 
         if (status == 3) {
             if (walkStatus >= 11) {
                 walkStatus = 1;
             }
-            
+
             if (isOnGround) {
                 setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk"
                         + walkStatus + ".png");
-            }else{
+            } else {
                 setImage("Player/p" + player + "_jump.png");
             }
-            if (right){
-                right = false;
-                
-            }else if (!right){
-                right = true;
-                getImage().mirrorHorizontally();
-            }
+            mirror();
             walkStatus++;
             status = 0;
         } else {
-            
+
             status++;
         }
-        
+
         getImage().scale(width, heigth);
     }
 
     public void animationJump(int width, int heigth, int player) {
         setImage("Player/p" + player + "_jump.png");
+        mirror();
         getImage().scale(width, heigth);
     }
 
@@ -125,13 +130,22 @@ public class Hero extends Mover {
             setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk1.png");
             getImage().scale(width, heigth);
             walkStatus = 1;
-        }else{
+            
+        } else {
             setImage("Player/p" + player + "_jump.png");
         }
+mirror();
         getImage().scale(width, heigth);
     }
 
-    
+    public void mirror() {
+        if (direction.equals("left")) {
+            getImage().mirrorHorizontally();
+//        } else if (direction.equals("left")) {
+//            
+
+        }
+    }
 
     public int getWidth() {
         return getImage().getWidth();
