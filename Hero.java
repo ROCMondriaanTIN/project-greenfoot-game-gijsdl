@@ -18,6 +18,7 @@ public class Hero extends Mover {
     private int lives = 2;
     private int spawnX;
     private int spawnY;
+    private int coin = 0;
 
     public Hero(String image, int width, int heigth, int spawnX, int spawnY) {
         super();
@@ -53,7 +54,22 @@ public class Hero extends Mover {
                 dood();
                 break;
             }
+            if (tile.getImage().toString().contains("Gold")){
+                getWorld().removeObject(tile);
+                coin += 2 ;
+                break;
+            }else if (tile.getImage().toString().contains("Silver")){
+                getWorld().removeObject(tile);
+                coin++;
+            }
         }
+       
+        if (coin >= 40){
+            lives++;
+            coin = 0;
+            
+        }
+        
     }
     
     public void dood(){
