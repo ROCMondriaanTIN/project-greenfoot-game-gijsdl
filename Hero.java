@@ -98,7 +98,7 @@ public class Hero extends Mover {
     public void animationWalk(int width, int heigth, int player) {
 
         if (status == 2) {
-            if (walkStatus >= 11) {
+            if (walkStatus > 11) {
                 walkStatus = 1;
             }
 
@@ -130,11 +130,11 @@ public class Hero extends Mover {
             setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk1.png");
             getImage().scale(width, heigth);
             walkStatus = 1;
-            
+
         } else {
             setImage("Player/p" + player + "_jump.png");
         }
-mirror();
+        mirror();
         getImage().scale(width, heigth);
     }
 
