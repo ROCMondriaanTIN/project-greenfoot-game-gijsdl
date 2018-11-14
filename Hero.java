@@ -15,14 +15,19 @@ public class Hero extends Mover {
     private int walkStatus = 1;
     private int status = 0;
     private String direction = "right";
+    private int lives = 2;
+    private int spawnX;
+    private int spawnY;
 
-    public Hero(String image, int width, int heigth) {
+    public Hero(String image, int width, int heigth, int spawnX, int spawnY) {
         super();
         gravity = 9.8;
         acc = 0.6;
         drag = 0.8;
         setImage(image);
         getImage().scale(width, heigth);
+        this.spawnX = spawnX;
+        this.spawnY = spawnY;
     }
 
     @Override
@@ -38,18 +43,28 @@ public class Hero extends Mover {
 
         for (Actor enemy : getIntersectingObjects(Enemy.class)) {
             if (enemy != null) {
-                getWorld().removeObject(this);
+                dood();
                 break;
             }
         }
         for (Tile tile : getIntersectingObjects(Tile.class)) {
-            if (tile.getImage().toString().contains("liquid") && !tile.getImage().toString().contains("Top")) {
-                getWorld().removeObject(this);
+            if (tile.getImage().toString().contains("liquid") && 
+                    !tile.getImage().toString().contains("Top")) {
+                dood();
                 break;
             }
         }
     }
-
+    
+    public void dood(){
+        lives--;
+        if (lives > 0){
+            setLocation(spawnX, spawnY);
+        }else{
+            getWorld().removeObject(this);
+        }
+    }
+    
     private double posToNeg(double x) {
         return (x - (x * 2));
     }
