@@ -72,7 +72,7 @@ public class MyWorld extends World {
             };
 
         // Declareren en initialiseren van de TileEngine klasse om de map aan de world toe te voegen
-        TileEngine te = new TileEngine(this, 60, 60, map);
+        TileEngine te = new TileEngine(this, 70, 70, map);
         // Declarenre en initialiseren van de camera klasse met de TileEngine klasse 
         // zodat de camera weet welke tiles allemaal moeten meebewegen met de camera
         Camera camera = new Camera(te);
