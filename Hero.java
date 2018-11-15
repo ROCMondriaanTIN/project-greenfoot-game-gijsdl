@@ -20,8 +20,9 @@ public class Hero extends Mover {
     private int spawnY;
     private int coin = 0;
     private boolean gotKey;
+    private Overlay overlay;
 
-    public Hero(String image, int width, int heigth, int spawnX, int spawnY) {
+    public Hero(String image, int width, int heigth, int spawnX, int spawnY, Overlay overlay) {
         super();
         gravity = 9.8;
         acc = 0.6;
@@ -30,6 +31,7 @@ public class Hero extends Mover {
         getImage().scale(width, heigth);
         this.spawnX = spawnX;
         this.spawnY = spawnY;
+        this.overlay = overlay;
     }
 
     @Override
@@ -65,11 +67,14 @@ public class Hero extends Mover {
                 break;
             }
             if (tile.getImage().toString().contains("Gold")) {
+                overlay.addCoin("Gold");
                 getWorld().removeObject(tile);
                 coin += 2;
                 break;
             } else if (tile.getImage().toString().contains("Silver")) {
+                overlay.addCoin("Silver");
                 getWorld().removeObject(tile);
+                overlay.update();
                 coin++;
             }
             if (tile.getImage().toString().contains("key")) {
@@ -80,7 +85,7 @@ public class Hero extends Mover {
             }
             if (tile.getImage().toString().contains("door_closedMid") && gotKey) {
                 tile.setImage("door_openMid.png");
-                getOneObjectAtOffset(tile.getImage().getWidth()/2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
+                getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
 
                 break;
             }
@@ -100,7 +105,7 @@ public class Hero extends Mover {
         if (coin >= 40) {
             lives++;
             coin = 0;
-
+            overlay.extraLeven();
         }
     }
 
