@@ -19,6 +19,7 @@ public class Hero extends Mover {
     private int spawnX;
     private int spawnY;
     private int coin = 0;
+    private boolean gotKey;
 
     public Hero(String image, int width, int heigth, int spawnX, int spawnY) {
         super();
@@ -41,46 +42,68 @@ public class Hero extends Mover {
             velocityY = gravity;
         }
         applyVelocity();
+        checkForEnemy();
+        checkForBlock();
+        coinCheck();
 
+    }
+
+    public void checkForEnemy() {
         for (Actor enemy : getIntersectingObjects(Enemy.class)) {
             if (enemy != null) {
                 dood();
                 break;
             }
         }
+    }
+
+    public void checkForBlock() {
         for (Tile tile : getIntersectingObjects(Tile.class)) {
-            if (tile.getImage().toString().contains("liquid") && 
-                    !tile.getImage().toString().contains("Top")) {
+            if (tile.getImage().toString().contains("liquid")
+                    && !tile.getImage().toString().contains("Top")) {
                 dood();
                 break;
             }
-            if (tile.getImage().toString().contains("Gold")){
+            if (tile.getImage().toString().contains("Gold")) {
                 getWorld().removeObject(tile);
-                coin += 2 ;
+                coin += 2;
                 break;
-            }else if (tile.getImage().toString().contains("Silver")){
+            } else if (tile.getImage().toString().contains("Silver")) {
                 getWorld().removeObject(tile);
                 coin++;
             }
+            if (tile.getImage().toString().contains("key")) {
+                getWorld().removeObject(tile);
+                gotKey = true;
+                System.out.println("key");
+                break;
+            }
+            if (tile.getImage().toString().contains("door_closedMid") && gotKey) {
+                tile.setImage("door_openMid.png");
+                getOneObjectAtOffset(tile.getImage().getWidth()/2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
+
+                break;
+            }
         }
-       
-        if (coin >= 40){
-            lives++;
-            coin = 0;
-            
-        }
-        
     }
-    
-    public void dood(){
+
+    public void dood() {
         lives--;
-        if (lives > 0){
+        if (lives > 0) {
             setLocation(spawnX, spawnY);
-        }else{
+        } else {
             getWorld().removeObject(this);
         }
     }
-    
+
+    public void coinCheck() {
+        if (coin >= 40) {
+            lives++;
+            coin = 0;
+
+        }
+    }
+
     private double posToNeg(double x) {
         return (x - (x * 2));
     }
