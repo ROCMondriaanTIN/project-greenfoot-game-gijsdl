@@ -1622,7 +1622,7 @@ public class TileFactory {
 
                 tile = new Tile("keyBlue.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT); 
 
-                tile.isSolid = true; 
+                
 
                 break; 
 

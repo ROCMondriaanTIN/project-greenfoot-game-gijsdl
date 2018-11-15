@@ -21,17 +21,20 @@ public class Hero extends Mover {
     private int coin = 0;
     private boolean gotKey;
     private Overlay overlay;
+    private int player;
+    private int diamanten;
 
-    public Hero(String image, int width, int heigth, int spawnX, int spawnY, Overlay overlay) {
+    public Hero(int player, int width, int heigth, int spawnX, int spawnY, Overlay overlay) {
         super();
         gravity = 9.8;
         acc = 0.6;
         drag = 0.8;
-        setImage(image);
+        setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk1.png");
         getImage().scale(width, heigth);
         this.spawnX = spawnX;
         this.spawnY = spawnY;
         this.overlay = overlay;
+        this.player = player;
     }
 
     @Override
@@ -61,34 +64,52 @@ public class Hero extends Mover {
 
     public void checkForBlock() {
         for (Tile tile : getIntersectingObjects(Tile.class)) {
-            if (tile.getImage().toString().contains("liquid")
-                    && !tile.getImage().toString().contains("Top")) {
-                dood();
-                break;
+            if (tile != null) {
+                if (tile.getImage().toString().contains("liquid")
+                        && !tile.getImage().toString().contains("Top")) {
+                    dood();
+                    break;
+                }
+                if (tile.getImage().toString().contains("Gold")) {
+                    overlay.addCoin("Gold");
+                    getWorld().removeObject(tile);
+                    coin += 2;
+                    break;
+                } else if (tile.getImage().toString().contains("Silver")) {
+                    overlay.addCoin("Silver");
+                    getWorld().removeObject(tile);
+                    overlay.update();
+                    coin++;
+                }
+                if (tile.getImage().toString().contains("key")) {
+                    getWorld().removeObject(tile);
+                    gotKey = true;
+                    overlay.gotKey(getColor(tile));
+                    break;
+                }
+                if (tile.getImage().toString().contains("door_closedMid") && gotKey) {
+                    tile.setImage("door_openMid.png");
+                    getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
+                    break;
+                }
+                if(tile.getImage().toString().contains("gem")){
+                    getWorld().removeObject(tile);
+                    diamanten++;
+                    overlay.addDiamant(getColor(tile));
+                }
             }
-            if (tile.getImage().toString().contains("Gold")) {
-                overlay.addCoin("Gold");
-                getWorld().removeObject(tile);
-                coin += 2;
-                break;
-            } else if (tile.getImage().toString().contains("Silver")) {
-                overlay.addCoin("Silver");
-                getWorld().removeObject(tile);
-                overlay.update();
-                coin++;
-            }
-            if (tile.getImage().toString().contains("key")) {
-                getWorld().removeObject(tile);
-                gotKey = true;
-                System.out.println("key");
-                break;
-            }
-            if (tile.getImage().toString().contains("door_closedMid") && gotKey) {
-                tile.setImage("door_openMid.png");
-                getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
+        }
+    }
 
-                break;
-            }
+    public String getColor(Tile tile) {
+        if (tile.getImage().toString().contains("Blue")) {
+            return "Blue";
+        } else if (tile.getImage().toString().contains("keyGreen")) {
+            return "Green";
+        } else if (tile.getImage().toString().contains("Red")) {
+            return "Red";
+        } else {
+            return "Yellow";
         }
     }
 
@@ -96,6 +117,7 @@ public class Hero extends Mover {
         lives--;
         if (lives > 0) {
             setLocation(spawnX, spawnY);
+            overlay.removeLive();
         } else {
             getWorld().removeObject(this);
         }
@@ -135,7 +157,7 @@ public class Hero extends Mover {
 
             if (isOnGround) {
                 velocityY = -17;
-                animationJump(getWidth(), getHeight(), 1);
+                animationJump(getWidth(), getHeight(), player);
             }
 
         }
@@ -143,14 +165,14 @@ public class Hero extends Mover {
         if (Greenfoot.isKeyDown("left")) {
             velocityX = -10;
             direction = "left";
-            animationWalk(getWidth(), getHeight(), 1);
+            animationWalk(getWidth(), getHeight(), player);
 
         } else if (Greenfoot.isKeyDown("right")) {
             velocityX = 10;
             direction = "right";
-            animationWalk(getWidth(), getHeight(), 1);
+            animationWalk(getWidth(), getHeight(), player);
         } else {
-            animationStand(getWidth(), getHeight(), 1);
+            animationStand(getWidth(), getHeight(), player);
         }
     }
 

@@ -10,15 +10,23 @@ import java.util.ArrayList;
  */
 public class Overlay extends Actor {
 
-    Coin[] coin = new Coin[40];
-    ArrayList<Lives> lives = new ArrayList<>();
+    private Coin[] coin = new Coin[40];
+    private ArrayList<Lives> lives = new ArrayList<>();
+    private ArrayList<Diamant> diamant = new ArrayList<>();
     private static int coinID = 0;
+    private int player;
+    private boolean gotKey = false;
+    String keyColor;
 
-    public Overlay() {
+    public Overlay(int player) {
         for (int i = 0; i < coin.length; i++) {
             coin[i] = new Coin();
         }
-        
+        this.player = player;
+        for (int i = 0; i < 2; i++) {
+            lives.add(new Lives(player, 40, 40));
+        }
+
         this.setImage(new GreenfootImage(1, 1));
     }
 
@@ -39,22 +47,51 @@ public class Overlay extends Actor {
     }
 
     public void update() {
-        int test = 0;
+
         if (coinID > 0) {
             for (int i = 0; i < coinID; i++) {
                 getWorld().addObject(coin[i], 950 - 10 * i, 50);
             }
-            System.out.println(test);
+        }
+
+        for (int i = 0; i < lives.size(); i++) {
+            getWorld().addObject(lives.get(i), 50 + 50 * i, 50);
+        }
+
+        if (diamant.size() > 0) {
+            for (int i = 0; i < diamant.size(); i++) {
+                getWorld().addObject(diamant.get(i), 50 + 50 * i, 100);
+
+            }
+        }
+
+        if (gotKey) {
+            getWorld().addObject(new Key(keyColor, 40, 40), 950, 100);
         }
     }
 
     public void extraLeven() {
         coinID = 0;
         for (Coin coin : coin) {
-
             getWorld().removeObject(coin);
-
         }
+        lives.add(new Lives(player, 40, 40));
 
+    }
+
+    public void removeLive() {
+
+        getWorld().removeObject(lives.get(lives.size() - 1));
+        lives.remove(lives.size() - 1);
+
+    }
+
+    public void gotKey(String color) {
+        gotKey = true;
+        keyColor = color;
+    }
+
+    public void addDiamant(String color) {
+        diamant.add(new Diamant(color, 50, 50));
     }
 }
