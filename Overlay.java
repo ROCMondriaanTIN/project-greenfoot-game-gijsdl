@@ -11,13 +11,14 @@ import java.util.ArrayList;
 public class Overlay extends Actor {
 
     Coin[] coin = new Coin[40];
+    ArrayList<Lives> lives = new ArrayList<>();
     private static int coinID = 0;
 
     public Overlay() {
         for (int i = 0; i < coin.length; i++) {
             coin[i] = new Coin();
-
         }
+        
         this.setImage(new GreenfootImage(1, 1));
     }
 
