@@ -16,7 +16,7 @@ public class Overlay extends Actor {
     private static int coinID = 0;
     private int player;
     private boolean gotKey = false;
-    String keyColor;
+    Key key = new Key(40, 40);
 
     public Overlay(int player) {
         for (int i = 0; i < coin.length; i++) {
@@ -28,6 +28,7 @@ public class Overlay extends Actor {
         }
 
         this.setImage(new GreenfootImage(1, 1));
+        coinID = 0;
     }
 
     /**
@@ -66,7 +67,8 @@ public class Overlay extends Actor {
         }
 
         if (gotKey) {
-            getWorld().addObject(new Key(keyColor, 40, 40), 950, 100);
+
+            getWorld().addObject(key, 950, 100);
         }
     }
 
@@ -88,7 +90,12 @@ public class Overlay extends Actor {
 
     public void gotKey(String color) {
         gotKey = true;
-        keyColor = color;
+        key.setKeyColor(color);
+    }
+
+    public void openedDoor() {
+        gotKey = false;
+        getWorld().removeObject(key);
     }
 
     public void addDiamant(String color) {

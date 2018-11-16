@@ -90,6 +90,7 @@ public class Hero extends Mover {
                 if (tile.getImage().toString().contains("door_closedMid") && gotKey) {
                     tile.setImage("door_openMid.png");
                     getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
+                    overlay.openedDoor();
                     break;
                 }
                 if(tile.getImage().toString().contains("gem")){

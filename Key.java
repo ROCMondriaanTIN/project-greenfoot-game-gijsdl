@@ -9,8 +9,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Key extends Actor {
 
-    public Key(String color, int width, int height) {
-        setImage("HUD/hud_key" + color + ".png");
+    public Key( int width, int height) {
+        
         getImage().scale(width, height);
     }
 
@@ -21,5 +21,8 @@ public class Key extends Actor {
     @Override
     public void act() {
         // Add your action code here.
-    }    
+    } 
+    public void setKeyColor(String color){
+        setImage("HUD/hud_key" + color + ".png");
+    }
 }
