@@ -5,19 +5,20 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  *
  * @author R. Springer
  */
-public class MyWorld extends World {
+public class LevelOne extends World {
     
     private CollisionEngine ce;
     private Overlay overlay;
-    int player = 2;
+    int player;
     /**
      * Constructor for objects of class MyWorld.
      *
      */
-    public MyWorld() {
+    public LevelOne(int player) {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1000, 800, 1, false);
         this.setBackground("bg.png");
+        this.player = player;
 
         int[][] map = {
             {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65},
