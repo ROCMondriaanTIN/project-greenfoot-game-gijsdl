@@ -54,11 +54,19 @@ public class Hero extends Mover {
     }
 
     public void checkForEnemy() {
-        for (Actor enemy : getIntersectingObjects(Enemy.class)) {
+        for (Enemy enemy : getIntersectingObjects(Enemy.class)) {
             if (enemy != null) {
-                dood();
-                break;
+                if (!enemy.getImage().toString().contains("upside")) {
+                    if (velocityY > 0 && getY() + getImage().getHeight() / 2 - 10 < enemy.getY() - enemy.getImage().getHeight() / 2 + 10) {
+                        enemy.dood();
+                    } else {
+                        dood();
+                    }
+
+                    break;
+                }
             }
+
         }
     }
 
@@ -93,7 +101,7 @@ public class Hero extends Mover {
                     overlay.openedDoor();
                     break;
                 }
-                if(tile.getImage().toString().contains("gem")){
+                if (tile.getImage().toString().contains("gem")) {
                     getWorld().removeObject(tile);
                     diamanten++;
                     overlay.addDiamant(getColor(tile));

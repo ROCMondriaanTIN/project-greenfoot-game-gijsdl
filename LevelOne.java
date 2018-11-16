@@ -92,7 +92,7 @@ public class LevelOne extends World {
         // Alle objecten toevoegen aan de wereld: camera, main karakter en mogelijke enemies
         addObject(camera, 0, 0);
         addObject(hero, heroSpawnX, heroSpawnY);
-        addObject(new Enemy(), 1170, 465);
+        addObject(new Enemy(150), 4380, 2505);
 
         // Force act zodat de camera op de juist plek staat.
         camera.act();

@@ -16,11 +16,11 @@ public class Enemy extends Mover {
     private int walkStatus = 1;
     private String direction = "left";
 
-    public Enemy() {
+    public Enemy(int walkRange) {
         super();
         setImage("Enemies/snailWalk1.png");
         getImage().mirrorHorizontally();
-        walkRange = 140;
+        this.walkRange = walkRange;
         firstAct = true;
         speed = 1;
     }
@@ -35,21 +35,27 @@ public class Enemy extends Mover {
             xMin = x - walkRange / 2;
             xMax = x + walkRange / 2;
         }
+        if (!getImage().toString().contains("upside")) {
+            velocityX = speed;
+            applyVelocity();
+            if (getX() >= xMax) {
+                speed *= -1;
+                x = xMax;
+                direction = "left";
+                animation();
+            } else if (getX() <= xMin) {
+                speed *= -1;
+                x = xMin;
+                direction = "right";
 
-        velocityX = speed;
-        applyVelocity();
-        if (getX() >= xMax) {
-            speed *= -1;
-            x = xMax;
-            direction = "left";
+            }
             animation();
-        } else if (getX() <= xMin) {
-            speed *= -1;
-            x = xMin;
-            direction = "right";
-
+        }else{
+            speed = 0;
+            velocityX = speed;
+            applyVelocity();
         }
-        animation();
+        
 
     }
 
@@ -69,5 +75,10 @@ public class Enemy extends Mover {
             status++;
         }
 
+    }
+
+    public void dood() {
+
+        setImage("Enemies/snailShell_upsidedown.png");
     }
 }
