@@ -49,7 +49,6 @@ public class Hero extends Mover {
         applyVelocity();
         checkForEnemy();
         checkForBlock();
-        coinCheck();
 
     }
 
@@ -79,14 +78,15 @@ public class Hero extends Mover {
                     break;
                 }
                 if (tile.getImage().toString().contains("Gold")) {
+                    coinCheck();
                     overlay.addCoin("Gold");
                     getWorld().removeObject(tile);
                     coin += 2;
                     break;
                 } else if (tile.getImage().toString().contains("Silver")) {
+                    coinCheck();
                     overlay.addCoin("Silver");
                     getWorld().removeObject(tile);
-                    overlay.update();
                     coin++;
                 }
                 if (tile.getImage().toString().contains("key")) {

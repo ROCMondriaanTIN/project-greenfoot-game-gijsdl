@@ -10,21 +10,21 @@ import java.util.ArrayList;
  */
 public class Overlay extends Actor {
 
-    private Coin[] coin = new Coin[40];
-    private ArrayList<Lives> lives = new ArrayList<>();
-    private ArrayList<Diamant> diamant = new ArrayList<>();
+    private HUDImage[] coin = new HUDImage[40];
+    private ArrayList<HUDImage> lives = new ArrayList<>();
+    private ArrayList<HUDImage> diamant = new ArrayList<>();
     private static int coinID = 0;
     private int player;
     private boolean gotKey = false;
-    Key key = new Key(40, 40);
+    HUDImage key = new HUDImage(40, 40);
 
     public Overlay(int player) {
         for (int i = 0; i < coin.length; i++) {
-            coin[i] = new Coin();
+            coin[i] = new HUDImage();
         }
         this.player = player;
         for (int i = 0; i < 2; i++) {
-            lives.add(new Lives(player, 40, 40));
+            lives.add(new HUDImage(player, 40, 40));
         }
 
         this.setImage(new GreenfootImage(1, 1));
@@ -43,7 +43,7 @@ public class Overlay extends Actor {
     public void addCoin(String color) {
 
         coin[coinID].setImage("coin" + color + ".png");
-        coin[coinID].setSize(40, 40);
+        coin[coinID].setCoinSize(40, 40);
         coinID++;
     }
 
@@ -74,10 +74,10 @@ public class Overlay extends Actor {
 
     public void extraLeven() {
         coinID = 0;
-        for (Coin coin : coin) {
+        for (HUDImage coin : coin) {
             getWorld().removeObject(coin);
         }
-        lives.add(new Lives(player, 40, 40));
+        lives.add(new HUDImage(player, 40, 40));
 
     }
 
@@ -99,6 +99,6 @@ public class Overlay extends Actor {
     }
 
     public void addDiamant(String color) {
-        diamant.add(new Diamant(color, 50, 50));
+        diamant.add(new HUDImage(color, 50, 50));
     }
 }

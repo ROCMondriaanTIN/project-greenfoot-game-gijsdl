@@ -1,5 +1,5 @@
 #Greenfoot properties
-#Fri Nov 16 09:38:53 CET 2018
+#Sun Nov 18 13:53:39 CET 2018
 editor.fx.0.height=739
 target2.width=80
 target8.name=Coin
@@ -110,6 +110,7 @@ dependency16.to=Tile
 dependency5.from=CollisionEngine
 dependency29.from=MyWorld
 target8.showInterface=false
+class.HUDImage.superclass=greenfoot.Actor
 target7.typeParameters=
 target2.name=Lives
 dependency9.from=Hero
@@ -243,6 +244,7 @@ target15.y=0
 target15.x=0
 target4.name=Tile
 readme.y=10
+class.LevelOne.superclass=greenfoot.World
 readme.x=10
 target4.height=50
 readme.height=58
