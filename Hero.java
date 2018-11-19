@@ -48,6 +48,7 @@ public class Hero extends Mover {
         }
         applyVelocity();
         checkForEnemy();
+        checkForFireBall();
         checkForBlock();
 
     }
@@ -69,8 +70,19 @@ public class Hero extends Mover {
         }
     }
 
+    public void checkForFireBall() {
+        for (FireBall enemy : getIntersectingObjects(FireBall.class)) {
+            if (enemy != null) {
+                dood();
+                break;
+            }
+
+        }
+    }
+
     public void checkForBlock() {
-        for (Tile tile : getIntersectingObjects(Tile.class)) {
+        for (Tile tile : getIntersectingObjects(Tile.class
+        )) {
             if (tile != null) {
                 if (tile.getImage().toString().contains("liquid")
                         && !tile.getImage().toString().contains("Top")) {
@@ -97,7 +109,8 @@ public class Hero extends Mover {
                 }
                 if (tile.getImage().toString().contains("door_closedMid") && gotKey) {
                     tile.setImage("door_openMid.png");
-                    getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
+                    getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class
+                    ).setImage("door_openTop.png");
                     overlay.openedDoor();
                     break;
                 }
@@ -128,7 +141,7 @@ public class Hero extends Mover {
             setLocation(spawnX, spawnY);
             overlay.removeLive();
         } else {
-            getWorld().removeObject(this);
+            Greenfoot.setWorld(new GameOver(player));
         }
     }
 
@@ -149,12 +162,17 @@ public class Hero extends Mover {
 
         width = getImage().getWidth() / 2;
 
-        Tile tile = (Tile) getOneObjectAtOffset(0, getImage().getHeight() / 2 + 1, Tile.class);
+        Tile tile = (Tile) getOneObjectAtOffset(0, getImage().getHeight() / 2 + 1, Tile.class
+        );
+
         if (tile == null) {
-            tile = (Tile) getOneObjectAtOffset(this.width - 3, getImage().getHeight() / 2 + 1, Tile.class);
+            tile = (Tile) getOneObjectAtOffset(this.width - 3, getImage().getHeight() / 2 + 1, Tile.class
+            );
+
         }
         if (tile == null) {
-            tile = (Tile) getOneObjectAtOffset((int) posToNeg(this.width) + 3, getImage().getHeight() / 2 + 1, Tile.class);
+            tile = (Tile) getOneObjectAtOffset((int) posToNeg(this.width) + 3, getImage().getHeight() / 2 + 1, Tile.class
+            );
         }
 
         if (tile != null && tile.isSolid) {

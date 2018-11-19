@@ -93,6 +93,7 @@ public class LevelOne extends World {
         addObject(camera, 0, 0);
         addObject(hero, heroSpawnX, heroSpawnY);
         addObject(new Enemy(150), 4380, 2505);
+        addObject(new FireBall(), 200, 2200);
 
         // Force act zodat de camera op de juist plek staat.
         camera.act();

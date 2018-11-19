@@ -42,7 +42,7 @@ public class Enemy extends Mover {
                 speed *= -1;
                 x = xMax;
                 direction = "left";
-                animation();
+                //animation();
             } else if (getX() <= xMin) {
                 speed *= -1;
                 x = xMin;
