@@ -24,13 +24,13 @@ public class Hero extends Mover {
     private int player;
     private int diamanten;
 
-    public Hero(int player, int width, int heigth, int spawnX, int spawnY, Overlay overlay) {
+    public Hero(int player, int spawnX, int spawnY, Overlay overlay) {
         super();
         gravity = 9.8;
         acc = 0.6;
         drag = 0.8;
         setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk1.png");
-        getImage().scale(width, heigth);
+        
         this.spawnX = spawnX;
         this.spawnY = spawnY;
         this.overlay = overlay;
@@ -57,7 +57,7 @@ public class Hero extends Mover {
         for (Enemy enemy : getIntersectingObjects(Enemy.class)) {
             if (enemy != null) {
                 if (!enemy.getImage().toString().contains("upside")) {
-                    if (velocityY > 0 && getY() + getImage().getHeight() / 2 - 10 < enemy.getY() - enemy.getImage().getHeight() / 2 + 10) {
+                    if (velocityY > 0){
                         enemy.dood();
                     } else {
                         dood();
@@ -109,8 +109,8 @@ public class Hero extends Mover {
                 }
                 if (tile.getImage().toString().contains("door_closedMid") && gotKey) {
                     tile.setImage("door_openMid.png");
-                    getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class
-                    ).setImage("door_openTop.png");
+                    getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
+                    gotKey = false;
                     overlay.openedDoor();
                     break;
                 }
@@ -119,6 +119,9 @@ public class Hero extends Mover {
                     diamanten++;
                     overlay.addDiamant(getColor(tile));
                 }
+                 if (tile.getImage().toString().contains("door_openMid")){
+                     Greenfoot.setWorld(new LevelKeuze());
+                 }
             }
         }
     }
@@ -126,7 +129,7 @@ public class Hero extends Mover {
     public String getColor(Tile tile) {
         if (tile.getImage().toString().contains("Blue")) {
             return "Blue";
-        } else if (tile.getImage().toString().contains("keyGreen")) {
+        } else if (tile.getImage().toString().contains("keyGreen") || tile.getImage().toString().contains("gemGreen")) {
             return "Green";
         } else if (tile.getImage().toString().contains("Red")) {
             return "Red";
@@ -250,6 +253,11 @@ public class Hero extends Mover {
         if (direction.equals("left")) {
             getImage().mirrorHorizontally();
         }
+    }
+
+    public void setSpawn(int x, int y) {
+        spawnX = x;
+        spawnY = y;
     }
 
     public int getWidth() {

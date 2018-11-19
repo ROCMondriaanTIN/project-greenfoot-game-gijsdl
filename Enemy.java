@@ -20,7 +20,7 @@ public class Enemy extends Mover {
         super();
         setImage("Enemies/snailWalk1.png");
         getImage().mirrorHorizontally();
-        this.walkRange = walkRange;
+        this.walkRange = 150;
         firstAct = true;
         speed = 1;
     }

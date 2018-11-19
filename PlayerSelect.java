@@ -44,7 +44,7 @@ public class PlayerSelect extends Actor {
                 }
             }
             if (Greenfoot.mouseClicked(this)) {
-                Greenfoot.setWorld(new LevelOne(player));
+                Greenfoot.setWorld(new Level(player));
             }
         }
     }
