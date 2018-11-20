@@ -37,15 +37,16 @@ public class PlayerSelect extends Actor {
                     if (object == this) {
                         setImage("Player/p" + player + "_front.png");
 
-                    }else{
+                    } else {
                         setImage("Player/p" + player + "_stand.png");
                     }
 
                 }
             }
             if (Greenfoot.mouseClicked(this)) {
-                Greenfoot.setWorld(new Level(player));
+                Greenfoot.setWorld(new LevelKeuze(1, player, true));
             }
         }
     }
+
 }

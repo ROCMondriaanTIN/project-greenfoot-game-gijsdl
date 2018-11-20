@@ -64,10 +64,11 @@ public class Level extends World {
         {65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65},};
     private int[][] fireBallMap1 = {
         {200, 2200},
-        {150, 2200}
+        {150, 2200},
+        {100, 2200}
     };
     private int[][] enemyMap1 = {{4380, 2505}};
-
+    private int[][] playerSpawn = {{300, 1800}};
     private int[][][] worldArray = {map1};
     private int[][][] fireBallArray = {fireBallMap1};
     private int[][][] enemyArray = {enemyMap1};
@@ -92,7 +93,7 @@ public class Level extends World {
         int heroSpawnX = 300;
         int heroSpawnY = 1800;
         overlay = new Overlay(player);
-        hero = new Hero(player, heroSpawnX, heroSpawnY, overlay);
+        hero = new Hero(player, heroSpawnX, heroSpawnY, overlay, 1);
         addObject(overlay, 0, 0);
 
         // Laat de camera een object volgen. Die moet een Mover instatie zijn of een extentie hiervan.
@@ -119,7 +120,7 @@ public class Level extends World {
         ce.addCollidingMover(hero);
     }
 
-    public Level(int player, int map, int heroSpawnX, int heroSpawnY) {
+    public Level(int player, int map) {
 
         super(1000, 800, 1, false);
         this.setBackground("bg.png");
@@ -132,7 +133,8 @@ public class Level extends World {
         // Declareren en initialiseren van een main karakter van het spel mijne heet Hero. Deze klasse 
         // moet de klasse Mover extenden voor de camera om te werken
 
-        hero.setSpawn(heroSpawnX, heroSpawnY);
+        hero.setSpawn(playerSpawn[map][0], playerSpawn[map][1]);
+        hero.setLevel(map + 1);
         addObject(overlay, 0, 0);
 
         // Laat de camera een object volgen. Die moet een Mover instatie zijn of een extentie hiervan.
@@ -140,7 +142,7 @@ public class Level extends World {
 
         // Alle objecten toevoegen aan de wereld: camera, main karakter en mogelijke enemies
         addObject(camera, 0, 0);
-        addObject(hero, heroSpawnX, heroSpawnY);
+        addObject(hero, playerSpawn[map][0], playerSpawn[map][1]);
         for (int i = 0; i < enemyArray[map].length; i++) {
             addObject(new Enemy(150), enemyArray[map][i][0], enemyArray[0][i][1]);
         }

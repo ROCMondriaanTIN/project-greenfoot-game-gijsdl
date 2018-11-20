@@ -23,14 +23,15 @@ public class Hero extends Mover {
     private Overlay overlay;
     private int player;
     private int diamanten;
+    int level;
 
-    public Hero(int player, int spawnX, int spawnY, Overlay overlay) {
+    public Hero(int player, int spawnX, int spawnY, Overlay overlay, int level) {
         super();
         gravity = 9.8;
         acc = 0.6;
         drag = 0.8;
         setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk1.png");
-        
+        this.level = level;
         this.spawnX = spawnX;
         this.spawnY = spawnY;
         this.overlay = overlay;
@@ -57,7 +58,7 @@ public class Hero extends Mover {
         for (Enemy enemy : getIntersectingObjects(Enemy.class)) {
             if (enemy != null) {
                 if (!enemy.getImage().toString().contains("upside")) {
-                    if (velocityY > 0){
+                    if (velocityY > 0) {
                         enemy.dood();
                     } else {
                         dood();
@@ -119,9 +120,9 @@ public class Hero extends Mover {
                     diamanten++;
                     overlay.addDiamant(getColor(tile));
                 }
-                 if (tile.getImage().toString().contains("door_openMid")){
-                     Greenfoot.setWorld(new LevelKeuze());
-                 }
+                if (tile.getImage().toString().contains("door_openMid")) {
+                    Greenfoot.setWorld(new LevelKeuze(level + 1, player, false));
+                }
             }
         }
     }
@@ -258,6 +259,10 @@ public class Hero extends Mover {
     public void setSpawn(int x, int y) {
         spawnX = x;
         spawnY = y;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public int getWidth() {
