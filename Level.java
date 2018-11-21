@@ -41,7 +41,7 @@ public abstract class Level extends World {
         hero.setSpawn(heroSpawnX, heroSpawnY);
         hero.setLevel(1);
         
-        addObject(overlay, 0, 0);
+        
 
         camera.follow(hero);
 

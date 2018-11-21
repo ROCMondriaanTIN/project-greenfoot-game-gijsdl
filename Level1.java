@@ -76,6 +76,7 @@ public class Level1 extends Level {
     @Override
     public void load() {
         hero.setPlayer(player);
+        overlay.setPlayer(player);
         Greenfoot.setWorld(this);
         addObject(hero, 300, 1800);
         addObject(overlay, 0, 0);

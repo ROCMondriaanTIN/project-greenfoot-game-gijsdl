@@ -23,9 +23,7 @@ public class Overlay extends Actor {
             coin[i] = new HUDImage();
         }
         this.player = player;
-        for (int i = 0; i < 2; i++) {
-            lives.add(new HUDImage(player, 40, 40));
-        }
+      
 
         this.setImage(new GreenfootImage(1, 1));
         coinID = 0;
@@ -100,5 +98,11 @@ public class Overlay extends Actor {
 
     public void addDiamant(String color) {
         diamant.add(new HUDImage(color, 50, 50));
+    }
+    public void setPlayer(int player){
+        this.player = player;
+          for (int i = 0; i < 2; i++) {
+            lives.add(new HUDImage(player, 40, 40));
+        }
     }
 }
