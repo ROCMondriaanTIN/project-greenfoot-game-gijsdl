@@ -21,27 +21,22 @@ public class Hero extends Mover {
     private int coin = 0;
     private boolean gotKey;
     private Overlay overlay;
-    private int player;
+    private int player = 1;
     private int diamanten;
     int level;
 
-    public Hero(int player, int spawnX, int spawnY, Overlay overlay, int level) {
+    public Hero(Overlay overlay) {
         super();
         gravity = 9.8;
         acc = 0.6;
         drag = 0.8;
-        setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk1.png");
-        this.level = level;
-        this.spawnX = spawnX;
-        this.spawnY = spawnY;
         this.overlay = overlay;
-        this.player = player;
     }
 
     @Override
     public void act() {
         handleInput();
-
+        System.out.println(player);
         velocityX *= drag;
         velocityY += acc;
         if (velocityY > gravity) {
@@ -121,7 +116,7 @@ public class Hero extends Mover {
                     overlay.addDiamant(getColor(tile));
                 }
                 if (tile.getImage().toString().contains("door_openMid")) {
-                    Greenfoot.setWorld(new LevelKeuze(level + 1, player, false));
+                    Greenfoot.setWorld(new LevelKeuze(level + 1, player));
                 }
             }
         }
@@ -188,7 +183,7 @@ public class Hero extends Mover {
 
             if (isOnGround) {
                 velocityY = -17;
-                animationJump(getWidth(), getHeight(), player);
+                animationJump();
             }
 
         }
@@ -196,18 +191,18 @@ public class Hero extends Mover {
         if (Greenfoot.isKeyDown("left")) {
             velocityX = -10;
             direction = "left";
-            animationWalk(getWidth(), getHeight(), player);
+            animationWalk();
 
         } else if (Greenfoot.isKeyDown("right")) {
             velocityX = 10;
             direction = "right";
-            animationWalk(getWidth(), getHeight(), player);
+            animationWalk();
         } else {
-            animationStand(getWidth(), getHeight(), player);
+            animationStand();
         }
     }
 
-    public void animationWalk(int width, int heigth, int player) {
+    public void animationWalk() {
 
         if (status == 2) {
             if (walkStatus > 11) {
@@ -228,32 +223,35 @@ public class Hero extends Mover {
             status++;
         }
 
-        getImage().scale(width, heigth);
     }
 
-    public void animationJump(int width, int heigth, int player) {
+    public void animationJump() {
         setImage("Player/p" + player + "_jump.png");
         mirror();
-        getImage().scale(width, heigth);
+
     }
 
-    public void animationStand(int width, int heigth, int player) {
+    public void animationStand() {
         if (isOnGround) {
             setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk1.png");
-            getImage().scale(width, heigth);
+
             walkStatus = 1;
 
         } else {
             setImage("Player/p" + player + "_jump.png");
         }
         mirror();
-        getImage().scale(width, heigth);
+
     }
 
     public void mirror() {
         if (direction.equals("left")) {
             getImage().mirrorHorizontally();
         }
+    }
+
+    public void setPlayer(int player) {
+        this.player = player;
     }
 
     public void setSpawn(int x, int y) {

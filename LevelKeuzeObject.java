@@ -12,10 +12,9 @@ public class LevelKeuzeObject extends Actor {
     private int level;
     private boolean speelbaar;
     private int speler;
-    private boolean first = true;
 
-    public LevelKeuzeObject(int level, boolean speelbaar, int speler, boolean first) {
-       
+    public LevelKeuzeObject(int level, boolean speelbaar, int speler) {
+
         if (speelbaar) {
             setImage("Level/level" + level + ".png");
         } else {
@@ -24,7 +23,6 @@ public class LevelKeuzeObject extends Actor {
         this.level = level;
         this.speelbaar = speelbaar;
         this.speler = speler;
-        this.first = first;
     }
 
     /**
@@ -35,11 +33,10 @@ public class LevelKeuzeObject extends Actor {
     public void act() {
         if (speelbaar) {
             if (Greenfoot.mouseClicked(this)) {
-                if(first){
-                Greenfoot.setWorld(new Level(speler));
-                } else {
-                    Greenfoot.setWorld(new Level(speler, level - 1));
-                }
+                Start.worldRegistry.getLevel(level).player = speler;
+                Start.worldRegistry.getLevel(level).load();
+                System.out.println(speler);
+
             }
         }
     }
