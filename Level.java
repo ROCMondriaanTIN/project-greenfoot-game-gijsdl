@@ -13,7 +13,7 @@ public abstract class Level extends World {
     int player = 1;
     int[][] map;
     Camera camera;
-    private boolean firstTime = true;
+    private static boolean firstTime = true;
 
     /**
      * Constructor for objects of class MyWorld.
@@ -40,6 +40,7 @@ public abstract class Level extends World {
         Camera camera = new Camera(te);
         hero.setSpawn(heroSpawnX, heroSpawnY);
         hero.setLevel(1);
+        
         addObject(overlay, 0, 0);
 
         camera.follow(hero);

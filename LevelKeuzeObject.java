@@ -35,7 +35,7 @@ public class LevelKeuzeObject extends Actor {
             if (Greenfoot.mouseClicked(this)) {
                 Start.worldRegistry.getLevel(level).player = speler;
                 Start.worldRegistry.getLevel(level).load();
-                System.out.println(speler);
+                
 
             }
         }

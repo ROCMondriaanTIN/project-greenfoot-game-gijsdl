@@ -21,7 +21,7 @@ public class Hero extends Mover {
     private int coin = 0;
     private boolean gotKey;
     private Overlay overlay;
-    private int player = 1;
+    private int player = 3;
     private int diamanten;
     int level;
 
@@ -46,6 +46,7 @@ public class Hero extends Mover {
         checkForEnemy();
         checkForFireBall();
         checkForBlock();
+        
 
     }
 
