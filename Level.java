@@ -13,6 +13,7 @@ public abstract class Level extends World {
     int player = 1;
     int[][] map;
     Camera camera;
+    TileEngine te;
     public static boolean firstTime = true;
 
     /**
@@ -36,12 +37,10 @@ public abstract class Level extends World {
     public void create(int player, int heroSpawnX, int heroSpawnY) {
         this.player = player;
 
-        TileEngine te = new TileEngine(this, 70, 70, this.map);
+        te = new TileEngine(this, 70, 70, this.map);
         Camera camera = new Camera(te);
         hero.setSpawn(heroSpawnX, heroSpawnY);
         hero.setLevel(1);
-        
-        
 
         camera.follow(hero);
 
@@ -54,12 +53,14 @@ public abstract class Level extends World {
         ce = new CollisionEngine(te, camera);
 
         ce.addCollidingMover(hero);
+
     }
 
     @Override
     public void act() {
         ce.update();
     }
+
     public Level reset() {
         return this;
     }

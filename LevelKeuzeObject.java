@@ -33,8 +33,9 @@ public class LevelKeuzeObject extends Actor {
     public void act() {
         if (speelbaar) {
             if (Greenfoot.mouseClicked(this)) {
-                Start.worldRegistry.getLevel(level).player = speler;
+                System.out.println(speler);
                 Start.worldRegistry.setLevel(level, Start.worldRegistry.getLevel(level).reset());
+                Start.worldRegistry.getLevel(level).player = speler;
                 Start.worldRegistry.getLevel(level).load();
                 
 

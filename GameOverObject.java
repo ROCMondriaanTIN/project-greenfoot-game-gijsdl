@@ -22,6 +22,7 @@ public class GameOverObject extends Actor {
         if (getImage().toString().contains("Player")) {
             if (Greenfoot.mouseClicked(this)) {
                 Greenfoot.setWorld(new Start());
+                
             }
         }
     }

@@ -69,6 +69,7 @@ public class Level1 extends Level {
 
     @Override
     public void load() {
+        System.out.println(player);
         hero.setPlayer(player);
 
         Greenfoot.setWorld(this);
@@ -79,6 +80,7 @@ public class Level1 extends Level {
         addObject(new FireBall(), 150, 2200);
         addObject(new FireBall(), 100, 2200);
         addObject(new Enemy(150), 4380, 2505);
+        DiamantsGot.getInstance().removeDiamants(te, 1);
     }
 
     @Override

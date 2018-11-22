@@ -1,5 +1,7 @@
 
 import greenfoot.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -12,7 +14,7 @@ public class Hero extends Mover {
     private final double drag;
     private int width;
     private boolean isOnGround;
-    private int walkStatus = 1;
+    private int walkStatus = 0;
     private int status = 0;
     private String direction = "right";
     private int lives = 2;
@@ -23,10 +25,34 @@ public class Hero extends Mover {
     private Overlay overlay;
     private int player = 3;
     private int diamanten;
-    int level;
+    private int level;
+    private GreenfootImage[] player1Walk = new GreenfootImage[11];
+    private GreenfootImage[] player2Walk = new GreenfootImage[11];
+    private GreenfootImage[] player3Walk = new GreenfootImage[11];
+    private GreenfootImage player1Jump = new GreenfootImage("Player/p1_jump.png");
+    private GreenfootImage player2Jump = new GreenfootImage("Player/p2_jump.png");
+    private GreenfootImage player3Jump = new GreenfootImage("Player/p3_jump.png");
+    private Map<Integer, GreenfootImage[]> playerImage = new HashMap();
+    private Map<Integer, GreenfootImage> playerImageJump = new HashMap();
 
     public Hero(Overlay overlay) {
         super();
+        for (int i = 0; i < player1Walk.length; i++) {
+
+            player1Walk[i] = new GreenfootImage("Player/p1_walk/PNG/p1_walk" + (i + 1) + ".png");
+        }
+        for (int i = 0; i < player2Walk.length; i++) {
+            player2Walk[i] = new GreenfootImage("Player/p2_walk/PNG/p2_walk" + (i + 1) + ".png");
+        }
+        for (int i = 0; i < player3Walk.length; i++) {
+            player3Walk[i] = new GreenfootImage("Player/p3_walk/PNG/p3_walk" + (i + 1) + ".png");
+        }
+        playerImage.put(1, player1Walk);
+        playerImage.put(2, player2Walk);
+        playerImage.put(3, player3Walk);
+        playerImageJump.put(1, player1Jump);
+        playerImageJump.put(2, player2Jump);
+        playerImageJump.put(3, player3Jump);
         setImage("Player/p1_walk/PNG/p1_walk1.png");
         gravity = 9.8;
         acc = 0.6;
@@ -120,6 +146,7 @@ public class Hero extends Mover {
                     getWorld().removeObject(tile);
                     diamanten++;
                     overlay.addDiamant(getColor(tile));
+                    DiamantsGot.getInstance().gotDiamand(level, tile.getColom(), tile.getRow());
                 }
                 if (tile.getImage().toString().contains("door_openMid")) {
                     Greenfoot.setWorld(new LevelKeuze(level + 1, player));
@@ -217,15 +244,15 @@ public class Hero extends Mover {
     public void animationWalk(int width, int heigth) {
 
         if (status == 2) {
-            if (walkStatus > 11) {
-                walkStatus = 1;
+            if (walkStatus > 10) {
+                walkStatus = 0;
             }
 
             if (isOnGround) {
-                setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk"
-                        + walkStatus + ".png");
+//              
+                setImage(new GreenfootImage(playerImage.get(player)[walkStatus]));
             } else {
-                setImage("Player/p" + player + "_jump.png");
+                setImage(new GreenfootImage(playerImageJump.get(player)));
             }
             mirror();
             walkStatus++;
@@ -238,19 +265,19 @@ public class Hero extends Mover {
     }
 
     public void animationJump(int width, int heigth) {
-        setImage("Player/p" + player + "_jump.png");
+        setImage(new GreenfootImage(playerImageJump.get(player)));
         mirror();
         getImage().scale(width, heigth);
     }
 
     public void animationStand(int width, int heigth) {
         if (isOnGround) {
-            setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk1.png");
+            setImage(new GreenfootImage(playerImage.get(player)[0]));
 
-            walkStatus = 1;
+            walkStatus = 0;
 
         } else {
-            setImage("Player/p" + player + "_jump.png");
+            setImage(new GreenfootImage(playerImageJump.get(player)));
         }
         mirror();
         getImage().scale(width, heigth);
