@@ -23,9 +23,10 @@ public class Overlay extends Actor {
     public Overlay(int player) {
         for (int i = 0; i < coin.length; i++) {
             coin[i] = new HUDImage();
+
         }
         this.player = player;
-      
+
         coinSilver.scale(40, 40);
         coinGold.scale(40, 40);
         this.setImage(new GreenfootImage(1, 1));
@@ -41,11 +42,17 @@ public class Overlay extends Actor {
         update();
     }
 
-    public void addCoin(String color) {
-        if(color.equals("Gold")) {
-            coin[coinID].setImage(coinGold);        
+    public void create() {
+        for (int i = 0; i < coin.length; i++) {
+            getWorld().addObject(coin[i], 950 - 10 * i, 50);
+            coin[i].getImage().setTransparency(0);
         }
-        else {
+    }
+
+    public void addCoin(String color) {
+        if (color.equals("Gold")) {
+            coin[coinID].setImage(coinGold);
+        } else {
             coin[coinID].setImage(coinSilver);
         }
         coinID++;
@@ -54,8 +61,10 @@ public class Overlay extends Actor {
     public void update() {
 
         if (coinID > 0) {
+            System.out.println(coinID);
             for (int i = 0; i < coinID; i++) {
-                getWorld().addObject(coin[i], 950 - 10 * i, 50);
+//                getWorld().addObject(coin[i], 950 - 10 * i, 50);
+                coin[i].getImage().setTransparency(255);
             }
         }
 
@@ -79,7 +88,8 @@ public class Overlay extends Actor {
     public void extraLeven() {
         coinID = 0;
         for (HUDImage coin : coin) {
-            getWorld().removeObject(coin);
+//            getWorld().removeObject(coin);
+            coin.getImage().setTransparency(0);
         }
         lives.add(new HUDImage(player, 40, 40));
 
@@ -105,13 +115,14 @@ public class Overlay extends Actor {
     public void addDiamant(String color) {
         diamant.add(new HUDImage(color, 50, 50));
     }
-    public void setPlayer(int player, int lives){
+
+    public void setPlayer(int player, int lives) {
         for (int i = 0; i < this.lives.size(); i++) {
             getWorld().removeObject(this.lives.get(i));
         }
         this.lives.clear();
         this.player = player;
-          for (int i = 0; i < lives; i++) {
+        for (int i = 0; i < lives; i++) {
             this.lives.add(new HUDImage(player, 40, 40));
         }
     }
