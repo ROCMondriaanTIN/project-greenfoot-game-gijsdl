@@ -13,6 +13,8 @@ public class Overlay extends Actor {
     private HUDImage[] coin = new HUDImage[40];
     private ArrayList<HUDImage> lives = new ArrayList<>();
     private ArrayList<HUDImage> diamant = new ArrayList<>();
+    private GreenfootImage coinSilver = new GreenfootImage("coinSilver.png");
+    private GreenfootImage coinGold = new GreenfootImage("coinGold.png");
     private static int coinID = 0;
     private int player;
     private boolean gotKey = false;
@@ -24,7 +26,8 @@ public class Overlay extends Actor {
         }
         this.player = player;
       
-
+        coinSilver.scale(40, 40);
+        coinGold.scale(40, 40);
         this.setImage(new GreenfootImage(1, 1));
         coinID = 0;
     }
@@ -39,9 +42,12 @@ public class Overlay extends Actor {
     }
 
     public void addCoin(String color) {
-
-        coin[coinID].setImage("coin" + color + ".png");
-        coin[coinID].setCoinSize(40, 40);
+        if(color.equals("Gold")) {
+            coin[coinID].setImage(coinGold);        
+        }
+        else {
+            coin[coinID].setImage(coinSilver);
+        }
         coinID++;
     }
 
