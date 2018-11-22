@@ -64,26 +64,26 @@ public class Level1 extends Level {
     public Level1() {
         super();
         this.map = map1;
-        create(1, 300, 1800);
-        
-        addObject(new FireBall(), 200, 2200);
-        addObject(new FireBall(), 150, 2200);
-        addObject(new FireBall(), 100, 2200);
-        addObject(new Enemy(150), 4380, 2505);
 
     }
 
     @Override
     public void load() {
         hero.setPlayer(player);
-        overlay.setPlayer(player);
+
         Greenfoot.setWorld(this);
-        addObject(hero, 300, 1800);
-        addObject(overlay, 0, 0);
+
+        create(1, 300, 1800);
+
+        addObject(new FireBall(), 200, 2200);
+        addObject(new FireBall(), 150, 2200);
+        addObject(new FireBall(), 100, 2200);
+        addObject(new Enemy(150), 4380, 2505);
     }
 
-    /**
-     * Constructor for objects of class Level1.
-     *
-     */
+    @Override
+    public Level reset() {
+        return new Level1();
+    }
+
 }

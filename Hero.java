@@ -27,6 +27,7 @@ public class Hero extends Mover {
 
     public Hero(Overlay overlay) {
         super();
+        setImage("Player/p1_walk/PNG/p1_walk1.png");
         gravity = 9.8;
         acc = 0.6;
         drag = 0.8;
@@ -36,7 +37,6 @@ public class Hero extends Mover {
     @Override
     public void act() {
         handleInput();
-        System.out.println(player);
         velocityX *= drag;
         velocityY += acc;
         if (velocityY > gravity) {
@@ -46,7 +46,6 @@ public class Hero extends Mover {
         checkForEnemy();
         checkForFireBall();
         checkForBlock();
-        
 
     }
 
@@ -87,16 +86,22 @@ public class Hero extends Mover {
                     break;
                 }
                 if (tile.getImage().toString().contains("Gold")) {
-                    coinCheck();
-                    overlay.addCoin("Gold");
                     getWorld().removeObject(tile);
                     coin += 2;
+                    coinCheck();
+                    if (coin != 0) {
+                        overlay.addCoin("Gold");
+                    }
                     break;
                 } else if (tile.getImage().toString().contains("Silver")) {
-                    coinCheck();
-                    overlay.addCoin("Silver");
                     getWorld().removeObject(tile);
                     coin++;
+                    coinCheck();
+                    if (coin != 0) {
+                        overlay.addCoin("Silver");
+                    }
+                    break;
+
                 }
                 if (tile.getImage().toString().contains("key")) {
                     getWorld().removeObject(tile);
@@ -146,11 +151,17 @@ public class Hero extends Mover {
     }
 
     public void coinCheck() {
+        System.out.println(coin);
+        System.out.println(lives);
         if (coin >= 40) {
             lives++;
-            coin = 0;
+            coin -= 40;
             overlay.extraLeven();
         }
+        System.out.println(coin);
+        System.out.println(lives);
+        System.out.println("");
+
     }
 
     private double posToNeg(double x) {
@@ -184,7 +195,7 @@ public class Hero extends Mover {
 
             if (isOnGround) {
                 velocityY = -17;
-                animationJump();
+                animationJump(getWidth(), getHeight());
             }
 
         }
@@ -192,18 +203,18 @@ public class Hero extends Mover {
         if (Greenfoot.isKeyDown("left")) {
             velocityX = -10;
             direction = "left";
-            animationWalk();
+            animationWalk(getWidth(), getHeight());
 
         } else if (Greenfoot.isKeyDown("right")) {
             velocityX = 10;
             direction = "right";
-            animationWalk();
+            animationWalk(getWidth(), getHeight());
         } else {
-            animationStand();
+            animationStand(getWidth(), getHeight());
         }
     }
 
-    public void animationWalk() {
+    public void animationWalk(int width, int heigth) {
 
         if (status == 2) {
             if (walkStatus > 11) {
@@ -223,16 +234,16 @@ public class Hero extends Mover {
 
             status++;
         }
-
+        getImage().scale(width, heigth);
     }
 
-    public void animationJump() {
+    public void animationJump(int width, int heigth) {
         setImage("Player/p" + player + "_jump.png");
         mirror();
-
+        getImage().scale(width, heigth);
     }
 
-    public void animationStand() {
+    public void animationStand(int width, int heigth) {
         if (isOnGround) {
             setImage("Player/p" + player + "_walk/PNG/p" + player + "_walk1.png");
 
@@ -242,7 +253,7 @@ public class Hero extends Mover {
             setImage("Player/p" + player + "_jump.png");
         }
         mirror();
-
+        getImage().scale(width, heigth);
     }
 
     public void mirror() {
@@ -253,6 +264,7 @@ public class Hero extends Mover {
 
     public void setPlayer(int player) {
         this.player = player;
+        overlay.setPlayer(player, lives);
     }
 
     public void setSpawn(int x, int y) {

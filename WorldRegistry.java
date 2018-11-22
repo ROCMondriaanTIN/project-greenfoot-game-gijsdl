@@ -11,8 +11,11 @@ public class WorldRegistry {
     }
     
     public Level getLevel(int index){
-//        levels.putIfAbsent(index, new Level1());
+        levels.putIfAbsent(index, new Level1());
         return levels.get(index);
+    }
+    public void setLevel(int index, Level level){
+        levels.put(index, level);
     }
     
 }

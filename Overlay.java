@@ -99,10 +99,14 @@ public class Overlay extends Actor {
     public void addDiamant(String color) {
         diamant.add(new HUDImage(color, 50, 50));
     }
-    public void setPlayer(int player){
+    public void setPlayer(int player, int lives){
+        for (int i = 0; i < this.lives.size(); i++) {
+            getWorld().removeObject(this.lives.get(i));
+        }
+        this.lives.clear();
         this.player = player;
-          for (int i = 0; i < 2; i++) {
-            lives.add(new HUDImage(player, 40, 40));
+          for (int i = 0; i < lives; i++) {
+            this.lives.add(new HUDImage(player, 40, 40));
         }
     }
 }
