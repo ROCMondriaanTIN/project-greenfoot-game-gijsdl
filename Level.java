@@ -53,7 +53,6 @@ public abstract class Level extends World {
         ce = new CollisionEngine(te, camera);
 
         ce.addCollidingMover(hero);
-        overlay.create();
 
     }
 
