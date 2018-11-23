@@ -77,7 +77,7 @@ public class Enemy extends Mover {
 
     }
 
-    public void dood() {
+    public void dead() {
 
         setImage("Enemies/snailShell_upsidedown.png");
     }

@@ -43,17 +43,19 @@ public abstract class Level extends World {
         hero.setLevel(1);
 
         camera.follow(hero);
-
+        ce = new CollisionEngine(te, camera);
         addObject(camera, 0, 0);
         addObject(hero, heroSpawnX, heroSpawnY);
-        addObject(overlay, 0, 0);
+        hero.addTileEngine(ce, te);
+        addObject(overlay, getWidth() / 2, getHeight() / 2);
         camera.act();
         hero.act();
 
-        ce = new CollisionEngine(te, camera);
+        
 
         ce.addCollidingMover(hero);
 
+        setPaintOrder(Overlay.class);
     }
 
     @Override

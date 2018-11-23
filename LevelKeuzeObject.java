@@ -11,7 +11,7 @@ public class LevelKeuzeObject extends Actor {
 
     private int level;
     private boolean speelbaar;
-    private int speler;
+    private int player;
 
     public LevelKeuzeObject(int level, boolean speelbaar, int speler) {
 
@@ -22,7 +22,7 @@ public class LevelKeuzeObject extends Actor {
         }
         this.level = level;
         this.speelbaar = speelbaar;
-        this.speler = speler;
+        this.player = speler;
     }
 
     /**
@@ -33,9 +33,9 @@ public class LevelKeuzeObject extends Actor {
     public void act() {
         if (speelbaar) {
             if (Greenfoot.mouseClicked(this)) {
-                System.out.println(speler);
+                
                 Start.worldRegistry.setLevel(level, Start.worldRegistry.getLevel(level).reset());
-                Start.worldRegistry.getLevel(level).player = speler;
+                Start.worldRegistry.getLevel(level).player = player;
                 Start.worldRegistry.getLevel(level).load();
                 
 

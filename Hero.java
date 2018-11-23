@@ -1,7 +1,6 @@
 
 import greenfoot.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  *
@@ -12,7 +11,6 @@ public class Hero extends Mover {
     private final double gravity;
     private final double acc;
     private final double drag;
-    private int width;
     private boolean isOnGround;
     private int walkStatus = 0;
     private int status = 0;
@@ -21,23 +19,28 @@ public class Hero extends Mover {
     private int spawnX;
     private int spawnY;
     private int coin = 0;
-    private boolean gotKey;
+    private boolean hasKey;
     private Overlay overlay;
     private int player = 3;
-    private int diamanten;
+    private int diamonds;
     private int level;
     private GreenfootImage[] playerWalk = new GreenfootImage[11];
     private GreenfootImage playerJump;
-
-    
+    private CollisionEngine collisionEngine;
+    private TileEngine tileEngine;
 
     public Hero(Overlay overlay) {
-        super();    
+        super();
         setImage("Player/p1_walk/PNG/p1_walk1.png");
         gravity = 9.8;
         acc = 0.6;
         drag = 0.8;
         this.overlay = overlay;
+    }
+
+    public void addTileEngine(CollisionEngine collisionEngine, TileEngine tileEngine) {
+        this.collisionEngine = collisionEngine;
+        this.tileEngine = tileEngine;
     }
 
     @Override
@@ -52,7 +55,6 @@ public class Hero extends Mover {
         checkForEnemy();
         checkForFireBall();
         checkForBlock();
-
     }
 
     public void checkForEnemy() {
@@ -60,75 +62,117 @@ public class Hero extends Mover {
             if (enemy != null) {
                 if (!enemy.getImage().toString().contains("upside")) {
                     if (velocityY > 0) {
-                        enemy.dood();
+                        enemy.dead();
                     } else {
-                        dood();
+                        died();
                     }
-
                     break;
                 }
             }
-
         }
     }
 
     public void checkForFireBall() {
         for (FireBall enemy : getIntersectingObjects(FireBall.class)) {
             if (enemy != null) {
-                dood();
+                died();
                 break;
             }
-
         }
     }
 
     public void checkForBlock() {
-        for (Tile tile : getIntersectingObjects(Tile.class
-        )) {
+//        for (Tile tile : getIntersectingObjects(Tile.class
+//        )) {
+//            if (tile != null) {
+//                if (tile.getImage().toString().contains("liquid")
+//                        && !tile.getImage().toString().contains("Top")) {
+//                    died();
+//                    break;
+//                }
+//                if (tile.getImage().toString().contains("Gold")) {
+//                    getWorld().removeObject(tile);
+//                    coin += 2;
+//                    coinCheck();
+//                    if (coin != 0) {
+//                        overlay.addCoin("Gold");
+//                    }
+//                    break;
+//                } else if (tile.getImage().toString().contains("Silver")) {
+//                    getWorld().removeObject(tile);
+//                    coin++;
+//                    coinCheck();
+//                    if (coin != 0) {
+//                        overlay.addCoin("Silver");
+//                    }
+//                    break;
+//
+//                }
+//                if (tile.getImage().toString().contains("key")) {
+//                    getWorld().removeObject(tile);
+//                    hasKey = true;
+//                    overlay.gotKey(getColor(tile));
+//                    break;
+//                }
+//                if (tile.getImage().toString().contains("door_closedMid") && hasKey) {
+//                    tile.setImage("door_openMid.png");
+//                    getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
+//                    hasKey = false;
+//                    overlay.openedDoor();
+//                    break;
+//                }
+//                if (tile.getImage().toString().contains("gem")) {
+//                    getWorld().removeObject(tile);
+//                    diamonds++;
+//                    overlay.addDiamant(getColor(tile));
+//                    DiamantsGot.getInstance().gotDiamand(level, tile.getColom(), tile.getRow());
+//                }
+//                if (tile.getImage().toString().contains("door_openMid")) {
+//                    Greenfoot.setWorld(new LevelKeuze(level + 1, player));
+//                }
+//            }
+//        }
+        List<Tile> tiles = collisionEngine.getCollidingTiles(this, true);
+
+        for (Tile tile : tiles) {
             if (tile != null) {
-                if (tile.getImage().toString().contains("liquid")
-                        && !tile.getImage().toString().contains("Top")) {
-                    dood();
+                if (tile.type == TileType.WATER) {
+                    died();
                     break;
-                }
-                if (tile.getImage().toString().contains("Gold")) {
-                    getWorld().removeObject(tile);
+                } else if (tile.type == TileType.GOLDCOIN) {
+                    tileEngine.removeTile(tile);
                     coin += 2;
                     coinCheck();
                     if (coin != 0) {
                         overlay.addCoin("Gold");
                     }
                     break;
-                } else if (tile.getImage().toString().contains("Silver")) {
-                    getWorld().removeObject(tile);
-                    coin++;
+                } else if (tile.type == TileType.SILVERCOIN) {
+                    tileEngine.removeTile(tile);
+                    coin += 2;
                     coinCheck();
                     if (coin != 0) {
                         overlay.addCoin("Silver");
                     }
                     break;
-
-                }
-                if (tile.getImage().toString().contains("key")) {
-                    getWorld().removeObject(tile);
-                    gotKey = true;
+                } else if (tile.type == TileType.KEY) {
+                    tileEngine.removeTile(tile);
+                    hasKey = true;
                     overlay.gotKey(getColor(tile));
                     break;
-                }
-                if (tile.getImage().toString().contains("door_closedMid") && gotKey) {
-                    tile.setImage("door_openMid.png");
-                    getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
-                    gotKey = false;
+                } else if (tile.type == TileType.DOORCLOSE && hasKey){
+                     tile.setImage("door_openMid.png");
+                     tile.setTileType(TileType.DOOROPEN);
+                    tileEngine.getTileAt(tile.getColom(), tile.getRow() - 1).setImage("door_openTop.png");
+                    hasKey = false;
                     overlay.openedDoor();
                     break;
-                }
-                if (tile.getImage().toString().contains("gem")) {
-                    getWorld().removeObject(tile);
-                    diamanten++;
+                } else if (tile.type ==  TileType.GEM){
+                    tileEngine.removeTile(tile);
+                    diamonds++;
                     overlay.addDiamant(getColor(tile));
                     DiamantsGot.getInstance().gotDiamand(level, tile.getColom(), tile.getRow());
-                }
-                if (tile.getImage().toString().contains("door_openMid")) {
+                } else if(tile.type == TileType.DOOROPEN){
                     Greenfoot.setWorld(new LevelKeuze(level + 1, player));
                 }
             }
@@ -147,7 +191,7 @@ public class Hero extends Mover {
         }
     }
 
-    public void dood() {
+    public void died() {
         lives--;
         if (lives > 0) {
             setLocation(spawnX, spawnY);
@@ -166,33 +210,43 @@ public class Hero extends Mover {
         }
     }
 
-    private double posToNeg(double x) {
-        return (x - (x * 2));
+    private void updateOnGroundStats() {
+        int dx = getImage().getWidth() / 2;
+        int dy = getImage().getHeight() / 2 + 1;
+
+        //checks if here is not going up or down
+        if (velocityY != 0) {
+            isOnGround = false;
+            return;
+        }
+        //checks tile exacly under hero
+        for (Tile tile : getObjectsAtOffset(0, dy, Tile.class)) {
+            if (tile.isSolid) {
+                isOnGround = true;
+            }
+            break;
+        }
+        //checks if hero is on the edge of a block
+        if (!isOnGround) {
+            for (Tile tile : getObjectsAtOffset(dx - 3, dy, Tile.class)) {
+                if (tile.isSolid) {
+                    isOnGround = true;
+                }
+                break;
+            }
+            if (!isOnGround) {
+                for (Tile tile : getObjectsAtOffset(dx * -1 + 3, dy, Tile.class)) {
+                    if (tile.isSolid) {
+                        isOnGround = true;
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     public void handleInput() {
-        //on ground check and handling
-
-        width = getImage().getWidth() / 2;
-
-        Tile tile = (Tile) getOneObjectAtOffset(0, getImage().getHeight() / 2 + 1, Tile.class
-        );
-
-        if (tile == null) {
-            tile = (Tile) getOneObjectAtOffset(this.width - 3, getImage().getHeight() / 2 + 1, Tile.class
-            );
-
-        }
-        if (tile == null) {
-            tile = (Tile) getOneObjectAtOffset((int) posToNeg(this.width) + 3, getImage().getHeight() / 2 + 1, Tile.class
-            );
-        }
-
-        if (tile != null && tile.isSolid) {
-            isOnGround = true;
-        } else {
-            isOnGround = false;
-        }
+        updateOnGroundStats();
         if (Greenfoot.isKeyDown("space")) {
 
             if (isOnGround) {
@@ -214,6 +268,10 @@ public class Hero extends Mover {
         } else {
             animationStand(getWidth(), getHeight());
         }
+        if (Greenfoot.isKeyDown("w")) {
+            velocityY = -20;
+        }
+
     }
 
     public void animationWalk(int width, int heigth) {
@@ -268,7 +326,7 @@ public class Hero extends Mover {
         for (int i = 0; i < playerWalk.length; i++) {
             playerWalk[i] = new GreenfootImage("Player/p" + player + "_walk/PNG/p" + player + "_walk" + (i + 1) + ".png");
         }
-        playerJump = new GreenfootImage("Player/p"+ player+ "_jump.png");
+        playerJump = new GreenfootImage("Player/p" + player + "_jump.png");
         this.player = player;
         overlay.setPlayer(player, lives);
     }

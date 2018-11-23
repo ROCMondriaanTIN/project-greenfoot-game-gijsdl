@@ -10,8 +10,14 @@
  */
 public enum TileType {
     DEFAULT,
+    BOX,
     GROUND,
     WATER,
-    BOX,
-    // Add your own tile types here
+    KEY,
+    GEM,
+    GOLDCOIN,
+    SILVERCOIN,
+    DOORCLOSE,
+    DOOROPEN,
+    
 }

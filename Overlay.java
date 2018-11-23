@@ -10,27 +10,27 @@ import java.util.ArrayList;
  */
 public class Overlay extends Actor {
 
-    private HUDImage[] coin = new HUDImage[40];
+    
     private ArrayList<HUDImage> lives = new ArrayList<>();
     private ArrayList<HUDImage> diamant = new ArrayList<>();
-    private GreenfootImage coinSilver = new GreenfootImage("coinSilver.png");
-    private GreenfootImage coinGold = new GreenfootImage("coinGold.png");
-    private static int coinID = 0;
+    private final GreenfootImage coinSilver = new GreenfootImage("coinSilver.png");
+    private final GreenfootImage coinGold = new GreenfootImage("coinGold.png");
+    private int coinID = 0;
     private int player;
     private boolean gotKey = false;
     HUDImage key = new HUDImage(40, 40);
 
     public Overlay(int player) {
-        for (int i = 0; i < coin.length; i++) {
-            coin[i] = new HUDImage();
-        }
+        
         this.player = player;
-      
+
         coinSilver.scale(40, 40);
         coinGold.scale(40, 40);
-        this.setImage(new GreenfootImage(1, 1));
+        this.setImage(new GreenfootImage(1000, 800));
+        this.getImage().clear();
         coinID = 0;
     }
+    
 
     /**
      * Act - do whatever the Overlay wants to do. This method is called whenever
@@ -42,22 +42,17 @@ public class Overlay extends Actor {
     }
 
     public void addCoin(String color) {
-        if(color.equals("Gold")) {
-            coin[coinID].setImage(coinGold);        
-        }
-        else {
-            coin[coinID].setImage(coinSilver);
+        if (color.equals("Gold")) {
+//            coin[coinID].setImage(coinGold);       
+            getImage().drawImage(coinGold, 950 - 10 * coinID, 30);
+        } else {
+//            coin[coinID].setImage(coinSilver);
+            getImage().drawImage(coinSilver, 950 - 10 * coinID, 30);
         }
         coinID++;
     }
 
     public void update() {
-
-        if (coinID > 0) {
-            for (int i = 0; i < coinID; i++) {
-                getWorld().addObject(coin[i], 950 - 10 * i, 50);
-            }
-        }
 
         for (int i = 0; i < lives.size(); i++) {
             getWorld().addObject(lives.get(i), 50 + 50 * i, 50);
@@ -77,12 +72,9 @@ public class Overlay extends Actor {
     }
 
     public void extraLeven() {
+        this.getImage().clear();
         coinID = 0;
-        for (HUDImage coin : coin) {
-            getWorld().removeObject(coin);
-        }
         lives.add(new HUDImage(player, 40, 40));
-
     }
 
     public void removeLive() {
@@ -105,13 +97,14 @@ public class Overlay extends Actor {
     public void addDiamant(String color) {
         diamant.add(new HUDImage(color, 50, 50));
     }
-    public void setPlayer(int player, int lives){
+
+    public void setPlayer(int player, int lives) {
         for (int i = 0; i < this.lives.size(); i++) {
             getWorld().removeObject(this.lives.get(i));
         }
         this.lives.clear();
         this.player = player;
-          for (int i = 0; i < lives; i++) {
+        for (int i = 0; i < lives; i++) {
             this.lives.add(new HUDImage(player, 40, 40));
         }
     }

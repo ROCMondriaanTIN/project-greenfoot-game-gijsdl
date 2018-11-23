@@ -20,7 +20,7 @@ public class LevelKeuze extends World {
      * Constructor for objects of class LevelKeuze.
      *
      */
-    public LevelKeuze(int level, int speler) {
+    public LevelKeuze(int level, int player) {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1000, 800, 1, false);
         setBackground("bg.png");
@@ -28,11 +28,11 @@ public class LevelKeuze extends World {
             this.level = level;
         }
         for (int i = 0; i < level; i++) {
-            addObject(new LevelKeuzeObject(i + 1, true, speler), x, y);
+            addObject(new LevelKeuzeObject(i + 1, true, player), x, y);
             x= x + 100;
         }
         for (int i = level; i < levelMax; i++) {
-            addObject(new LevelKeuzeObject(i+1, false, speler), x, y);
+            addObject(new LevelKeuzeObject(i+1, false, player), x, y);
             x = x + 100;
         }
         

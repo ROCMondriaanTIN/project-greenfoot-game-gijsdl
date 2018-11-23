@@ -96,4 +96,7 @@ public class BasicTile extends Actor {
     public void setRow(int row) {
         this.row = row;
     }
+    public void setTileType(TileType type){
+        this.type = type;
+    }
 }
