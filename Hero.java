@@ -82,56 +82,7 @@ public class Hero extends Mover {
     }
 
     public void checkForBlock() {
-//        for (Tile tile : getIntersectingObjects(Tile.class
-//        )) {
-//            if (tile != null) {
-//                if (tile.getImage().toString().contains("liquid")
-//                        && !tile.getImage().toString().contains("Top")) {
-//                    died();
-//                    break;
-//                }
-//                if (tile.getImage().toString().contains("Gold")) {
-//                    getWorld().removeObject(tile);
-//                    coin += 2;
-//                    coinCheck();
-//                    if (coin != 0) {
-//                        overlay.addCoin("Gold");
-//                    }
-//                    break;
-//                } else if (tile.getImage().toString().contains("Silver")) {
-//                    getWorld().removeObject(tile);
-//                    coin++;
-//                    coinCheck();
-//                    if (coin != 0) {
-//                        overlay.addCoin("Silver");
-//                    }
-//                    break;
-//
-//                }
-//                if (tile.getImage().toString().contains("key")) {
-//                    getWorld().removeObject(tile);
-//                    hasKey = true;
-//                    overlay.gotKey(getColor(tile));
-//                    break;
-//                }
-//                if (tile.getImage().toString().contains("door_closedMid") && hasKey) {
-//                    tile.setImage("door_openMid.png");
-//                    getOneObjectAtOffset(tile.getImage().getWidth() / 2, tile.getImage().getHeight() / 2 - 70, Tile.class).setImage("door_openTop.png");
-//                    hasKey = false;
-//                    overlay.openedDoor();
-//                    break;
-//                }
-//                if (tile.getImage().toString().contains("gem")) {
-//                    getWorld().removeObject(tile);
-//                    diamonds++;
-//                    overlay.addDiamant(getColor(tile));
-//                    DiamantsGot.getInstance().gotDiamand(level, tile.getColom(), tile.getRow());
-//                }
-//                if (tile.getImage().toString().contains("door_openMid")) {
-//                    Greenfoot.setWorld(new LevelKeuze(level + 1, player));
-//                }
-//            }
-//        }
+
         List<Tile> tiles = collisionEngine.getCollidingTiles(this, true);
 
         for (Tile tile : tiles) {
