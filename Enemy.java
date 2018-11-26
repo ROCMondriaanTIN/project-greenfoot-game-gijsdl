@@ -15,6 +15,7 @@ public class Enemy extends Mover {
     private int status = 0;
     private int walkStatus = 1;
     private String direction = "left";
+    private boolean alive;
 
     public Enemy(int walkRange) {
         super();
@@ -35,14 +36,13 @@ public class Enemy extends Mover {
             xMin = x - walkRange / 2;
             xMax = x + walkRange / 2;
         }
-        if (!getImage().toString().contains("upside")) {
+        if (alive) {
             velocityX = speed;
             applyVelocity();
             if (getX() >= xMax) {
                 speed *= -1;
                 x = xMax;
                 direction = "left";
-                //animation();
             } else if (getX() <= xMin) {
                 speed *= -1;
                 x = xMin;
@@ -80,5 +80,6 @@ public class Enemy extends Mover {
     public void dead() {
 
         setImage("Enemies/snailShell_upsidedown.png");
+        alive = false;
     }
 }

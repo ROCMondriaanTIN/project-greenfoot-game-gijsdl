@@ -80,6 +80,8 @@ public class Level1 extends Level {
         addObject(new FireBall(), 150, 2200);
         addObject(new FireBall(), 100, 2200);
         addObject(new Enemy(150), 4380, 2505);
+        addObject(new MovingPlatform(300, true), 300, 2000);
+        addObject(new MovingPlatform(300, false), 300, 2000);
         DiamantsGot.getInstance().removeDiamants(te, 1);
     }
 

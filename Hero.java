@@ -55,6 +55,7 @@ public class Hero extends Mover {
         checkForEnemy();
         checkForFireBall();
         checkForBlock();
+        checkForMovingPlatform();
     }
 
     public void checkForEnemy() {
@@ -111,22 +112,42 @@ public class Hero extends Mover {
                     hasKey = true;
                     overlay.gotKey(getColor(tile));
                     break;
-                } else if (tile.type == TileType.DOORCLOSE && hasKey){
-                     tile.setImage("door_openMid.png");
-                     tile.setTileType(TileType.DOOROPEN);
+                } else if (tile.type == TileType.DOORCLOSE && hasKey) {
+                    tile.setImage("door_openMid.png");
+                    tile.setTileType(TileType.DOOROPEN);
                     tileEngine.getTileAt(tile.getColom(), tile.getRow() - 1).setImage("door_openTop.png");
                     hasKey = false;
                     overlay.openedDoor();
                     break;
-                } else if (tile.type ==  TileType.GEM){
+                } else if (tile.type == TileType.GEM) {
                     tileEngine.removeTile(tile);
                     diamonds++;
                     overlay.addDiamant(getColor(tile));
                     DiamantsGot.getInstance().gotDiamand(level, tile.getColom(), tile.getRow());
-                } else if(tile.type == TileType.DOOROPEN){
+                } else if (tile.type == TileType.DOOROPEN) {
                     Greenfoot.setWorld(new LevelKeuze(level + 1, player));
                 }
             }
+        }
+    }
+
+    public void checkForMovingPlatform() {
+        for (MovingPlatform platform : getIntersectingObjects(MovingPlatform.class)) {
+            int bottom = getX() - getImage().getHeight() / 2;
+            int topPlatform = platform.getImage().getHeight() / 2;
+            double overlapY = 0;
+            int y = getY();
+            int x = getX();
+            if (bottom > platform.getX() + topPlatform) {
+                if (velocityY >= 0) {
+                    overlapY = topPlatform - bottom;
+                }
+            }
+            if (Math.abs(overlapY) > 0) {
+                velocityY = 0;
+                y += overlapY;
+            }
+            setLocation(x, y);
         }
     }
 
