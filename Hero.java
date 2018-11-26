@@ -8,9 +8,9 @@ import java.util.List;
  */
 public class Hero extends Mover {
 
-    private final double gravity;
-    private final double acc;
-    private final double drag;
+    private double gravity;
+    private double acc;
+    private double drag;
     private boolean isOnGround;
     private int walkStatus = 0;
     private int status = 0;
@@ -28,6 +28,8 @@ public class Hero extends Mover {
     private GreenfootImage playerJump;
     private CollisionEngine collisionEngine;
     private TileEngine tileEngine;
+    private boolean onMovingPlatform;
+    private boolean dragOn;
 
     public Hero(Overlay overlay) {
         super();
@@ -46,16 +48,23 @@ public class Hero extends Mover {
     @Override
     public void act() {
         handleInput();
-        velocityX *= drag;
-        velocityY += acc;
-        if (velocityY > gravity) {
-            velocityY = gravity;
+
+        if (!checkForMovingPlatform()) {
+            
+            velocityY += acc;
+            if (velocityY > gravity) {
+                velocityY = gravity;
+            }
         }
+        if(dragOn){
+            velocityX *= drag;
+        }
+
         applyVelocity();
         checkForEnemy();
         checkForFireBall();
         checkForBlock();
-        checkForMovingPlatform();
+//        checkForMovingPlatform();
     }
 
     public void checkForEnemy() {
@@ -131,24 +140,49 @@ public class Hero extends Mover {
         }
     }
 
-    public void checkForMovingPlatform() {
+    public boolean checkForMovingPlatform() {
         for (MovingPlatform platform : getIntersectingObjects(MovingPlatform.class)) {
-            int bottom = getX() - getImage().getHeight() / 2;
-            int topPlatform = platform.getImage().getHeight() / 2;
-            double overlapY = 0;
-            int y = getY();
-            int x = getX();
-            if (bottom > platform.getX() + topPlatform) {
-                if (velocityY >= 0) {
-                    overlapY = topPlatform - bottom;
+            if (platform != null) {
+                int bottom = getY() + getImage().getHeight() / 2;
+                int topPlatform = platform.getY() - platform.getImage().getHeight() / 2;
+                double overlapY = 0;
+                int y = getY();
+                int x = getX();
+                
+                if (bottom > topPlatform && !onMovingPlatform) {
+                    if (velocityY >= 0) {
+                        overlapY = topPlatform - bottom;
+                    }
                 }
+                System.out.println(overlapY);
+                if (Math.abs(overlapY) > 0 && Math.abs(overlapY) <= 30 ) {
+                    velocityY = 0;
+                    y += overlapY;
+                    setLocation(x, y);
+
+                }
+
+                if (platform.getHorizontal()) {
+                    velocityX = platform.getSpeed();
+                    dragOn = false;
+                    handleInput();
+                } else if (bottom - 10 < topPlatform) {
+
+                    velocityY = platform.getSpeed();
+                    handleInput();
+
+                }else{
+                    dragOn = true;
+                }
+              
+                onMovingPlatform = true;
+                
+                return true;
             }
-            if (Math.abs(overlapY) > 0) {
-                velocityY = 0;
-                y += overlapY;
-            }
-            setLocation(x, y);
         }
+        dragOn = true;
+        onMovingPlatform = false;
+        return false;
     }
 
     public String getColor(Tile tile) {
@@ -187,7 +221,7 @@ public class Hero extends Mover {
         int dy = getImage().getHeight() / 2 + 1;
 
         //checks if here is not going up or down
-        if (velocityY != 0) {
+        if (velocityY != 0 && !onMovingPlatform) {
             isOnGround = false;
             return;
         }
@@ -214,6 +248,9 @@ public class Hero extends Mover {
                     break;
                 }
             }
+        }
+        if (onMovingPlatform) {
+            isOnGround = true;
         }
     }
 

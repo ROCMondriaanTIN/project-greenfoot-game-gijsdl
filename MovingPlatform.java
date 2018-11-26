@@ -66,4 +66,12 @@ public class MovingPlatform extends Mover {
             }
         }
     }
+    
+    public int getSpeed(){
+        return speed;
+    }
+    
+    public boolean getHorizontal(){
+        return horizontal;
+    }
 }
