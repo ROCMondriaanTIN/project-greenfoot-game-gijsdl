@@ -69,7 +69,6 @@ public class Level1 extends Level {
 
     @Override
     public void load() {
-        System.out.println(player);
         hero.setPlayer(player);
 
         Greenfoot.setWorld(this);
@@ -83,9 +82,9 @@ public class Level1 extends Level {
         addObject(new MovingPlatform(300, true), 230, 2000);
         addObject(new MovingPlatform(300, true), 300, 2000);
         addObject(new MovingPlatform(300, true), 370, 2000);
-        addObject(new MovingPlatform(300, false), 300, 2000);
-        addObject(new MovingPlatform(300, false), 230, 2000);
-        addObject(new MovingPlatform(300, false), 370, 2000);
+//        addObject(new MovingPlatform(300, false), 300, 2000);
+//        addObject(new MovingPlatform(300, false), 230, 2000);
+//        addObject(new MovingPlatform(300, false), 370, 2000);
         DiamantsGot.getInstance().removeDiamants(te, 1);
     }
 

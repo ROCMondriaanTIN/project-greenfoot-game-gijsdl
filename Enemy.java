@@ -15,7 +15,7 @@ public class Enemy extends Mover {
     private int status = 0;
     private int walkStatus = 1;
     private String direction = "left";
-    private boolean alive;
+    private boolean alive = true;
 
     public Enemy(int walkRange) {
         super();
@@ -30,11 +30,12 @@ public class Enemy extends Mover {
     public void act() {
         int x = getX();
         int y = getY();
-
+        
         if (firstAct) {
             firstAct = false;
             xMin = x - walkRange / 2;
             xMax = x + walkRange / 2;
+            
         }
         if (alive) {
             velocityX = speed;

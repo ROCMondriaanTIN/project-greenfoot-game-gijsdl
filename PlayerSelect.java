@@ -22,6 +22,10 @@ public class PlayerSelect extends Actor {
 
     }
 
+    public PlayerSelect(String image) {
+        setImage(image + "Button.png");
+    }
+
     /**
      * Act - do whatever the PlayerSelect wants to do. This method is called
      * whenever the 'Act' or 'Run' button gets pressed in the environment.
@@ -45,7 +49,19 @@ public class PlayerSelect extends Actor {
             }
             if (Greenfoot.mouseClicked(this)) {
                 Greenfoot.setWorld(new LevelKeuze(1, player));
-                
+
+            }
+        }
+        if (getImage().toString().contains("uitleg")) {
+            if (Greenfoot.mouseClicked(this)) {
+                Greenfoot.setWorld(new Info());
+
+            }
+        }
+        if (getImage().toString().contains("terug")) {
+            if (Greenfoot.mouseClicked(this)) {
+                Greenfoot.setWorld(new Start());
+
             }
         }
     }

@@ -29,7 +29,6 @@ public class Hero extends Mover {
     private CollisionEngine collisionEngine;
     private TileEngine tileEngine;
     private boolean onMovingPlatform;
-    private boolean dragOn;
 
     public Hero(Overlay overlay) {
         super();
@@ -50,28 +49,26 @@ public class Hero extends Mover {
         handleInput();
 
         if (!checkForMovingPlatform()) {
-            
+
             velocityY += acc;
             if (velocityY > gravity) {
                 velocityY = gravity;
             }
         }
-        if(dragOn){
-            velocityX *= drag;
-        }
+
+        velocityX *= drag;
 
         applyVelocity();
         checkForEnemy();
         checkForFireBall();
         checkForBlock();
-//        checkForMovingPlatform();
     }
 
     public void checkForEnemy() {
         for (Enemy enemy : getIntersectingObjects(Enemy.class)) {
             if (enemy != null) {
                 if (!enemy.getImage().toString().contains("upside")) {
-                    if (velocityY > 0) {
+                    if (velocityY > 1 && getY() + getImage().getHeight() / 2 < enemy.getX() - enemy.getImage().getHeight() / 2) {
                         enemy.dead();
                     } else {
                         died();
@@ -110,7 +107,7 @@ public class Hero extends Mover {
                     break;
                 } else if (tile.type == TileType.SILVERCOIN) {
                     tileEngine.removeTile(tile);
-                    coin += 2;
+                    coin += 1;
                     coinCheck();
                     if (coin != 0) {
                         overlay.addCoin("Silver");
@@ -148,39 +145,30 @@ public class Hero extends Mover {
                 double overlapY = 0;
                 int y = getY();
                 int x = getX();
-                
+
                 if (bottom > topPlatform && !onMovingPlatform) {
                     if (velocityY >= 0) {
                         overlapY = topPlatform - bottom;
                     }
                 }
-                System.out.println(overlapY);
-                if (Math.abs(overlapY) > 0 && Math.abs(overlapY) <= 30 ) {
+
+                if (Math.abs(overlapY) > 0 && Math.abs(overlapY) <= 30) {
                     velocityY = 0;
                     y += overlapY;
                     setLocation(x, y);
-
                 }
 
                 if (platform.getHorizontal()) {
                     velocityX = platform.getSpeed();
-                    dragOn = false;
                     handleInput();
                 } else if (bottom - 10 < topPlatform) {
-
                     velocityY = platform.getSpeed();
                     handleInput();
-
-                }else{
-                    dragOn = true;
                 }
-              
                 onMovingPlatform = true;
-                
                 return true;
             }
         }
-        dragOn = true;
         onMovingPlatform = false;
         return false;
     }
@@ -208,7 +196,6 @@ public class Hero extends Mover {
     }
 
     public void coinCheck() {
-
         if (coin >= 40) {
             lives++;
             coin -= 40;
@@ -262,7 +249,6 @@ public class Hero extends Mover {
                 velocityY = -17;
                 animationJump(getWidth(), getHeight());
             }
-
         }
 
         if (Greenfoot.isKeyDown("left")) {
@@ -280,6 +266,11 @@ public class Hero extends Mover {
         if (Greenfoot.isKeyDown("w")) {
             velocityY = -20;
         }
+        if (Greenfoot.isKeyDown("a")) {
+            velocityX = -20;
+        } else if (Greenfoot.isKeyDown("d")) {
+            velocityX = 20;
+        }
 
     }
 
@@ -291,7 +282,6 @@ public class Hero extends Mover {
             }
 
             if (isOnGround) {
-//              
                 setImage(new GreenfootImage(playerWalk[walkStatus]));
             } else {
                 setImage(new GreenfootImage(playerJump));
