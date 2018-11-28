@@ -32,7 +32,6 @@ public class Hero extends Mover {
 
     public Hero(Overlay overlay) {
         super();
-        setImage("Player/p1_walk/PNG/p1_walk1.png");
         gravity = 9.8;
         acc = 0.6;
         drag = 0.8;
@@ -70,6 +69,7 @@ public class Hero extends Mover {
                 if (!enemy.getImage().toString().contains("upside")) {
                     if (velocityY > 1 && getY() + getImage().getHeight() / 2 < enemy.getX() - enemy.getImage().getHeight() / 2) {
                         enemy.dead();
+                        velocityY = -10;
                     } else {
                         died();
                     }
@@ -154,6 +154,9 @@ public class Hero extends Mover {
 
                 if (Math.abs(overlapY) > 0 && Math.abs(overlapY) <= 30) {
                     velocityY = 0;
+                    if (player == 2){
+                        overlapY += 1;
+                    }
                     y += overlapY;
                     setLocation(x, y);
                 }
@@ -326,6 +329,7 @@ public class Hero extends Mover {
             playerWalk[i] = new GreenfootImage("Player/p" + player + "_walk/PNG/p" + player + "_walk" + (i + 1) + ".png");
         }
         playerJump = new GreenfootImage("Player/p" + player + "_jump.png");
+        setImage(playerWalk[0]);
         this.player = player;
         overlay.setPlayer(player, lives);
     }
