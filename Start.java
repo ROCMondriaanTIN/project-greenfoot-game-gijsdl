@@ -41,7 +41,7 @@ public class Start extends World {
     public void setLevels() {
         Level.firstTime = true;
         worldRegistry.registerLevel(1, new Level1());
-        worldRegistry.registerLevel(2, new Level1());
+//        worldRegistry.registerLevel(2, new Level1());
         
     }
 }

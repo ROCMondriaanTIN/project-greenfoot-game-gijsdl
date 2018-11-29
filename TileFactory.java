@@ -356,19 +356,23 @@ public class TileFactory {
                 break;
             case 84:
                 tile = new Tile("hill_large.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT);
-                tile.isSolid = true;
+                tile.getImage().scale(48, 146);
+                tile.isSolid = false;
                 break;
             case 85:
                 tile = new Tile("hill_largeAlt.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT);
-                tile.isSolid = true;
+                tile.getImage().scale(48, 146);
+                tile.isSolid = false;
                 break;
             case 86:
                 tile = new Tile("hill_small.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT);
-                tile.isSolid = true;
+                tile.getImage().scale(48, 106);
+                tile.isSolid = false;
                 break;
             case 87:
                 tile = new Tile("hill_smallAlt.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT);
-                tile.isSolid = true;
+                tile.getImage().scale(48, 106);
+                tile.isSolid = false;
                 break;
             case 88:
                 tile = new Tile("ladder_mid.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT);
@@ -743,12 +747,15 @@ public class TileFactory {
                 break;
             case 185:
                 tile = new Tile("cloud1.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT);
+                tile.getImage().scale(128, 71);
                 break;
             case 186:
                 tile = new Tile("cloud2.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT);
+                tile.getImage().scale(129, 71);
                 break;
             case 187:
                 tile = new Tile("cloud3.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT);
+                tile.getImage().scale(129, 71);
                 tile.isSolid = false;
                 break;
             case 188:

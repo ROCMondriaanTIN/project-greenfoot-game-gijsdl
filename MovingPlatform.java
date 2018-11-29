@@ -25,7 +25,7 @@ public class MovingPlatform extends Mover {
         setImage("bridgeLogs.png");
         getImage().mirrorVertically();
         firstAct = true;
-        speed = 2;
+        speed = 5;
     }
 
     @Override

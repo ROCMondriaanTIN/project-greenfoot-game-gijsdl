@@ -60,7 +60,7 @@ public class Overlay extends Actor {
 
         if (diamant.size() > 0) {
             for (int i = 0; i < diamant.size(); i++) {
-                getWorld().addObject(diamant.get(i), 50 + 50 * i, 100);
+                getWorld().addObject(diamant.get(i), 50 + 30 * i, 100);
 
             }
         }

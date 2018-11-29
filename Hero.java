@@ -29,6 +29,8 @@ public class Hero extends Mover {
     private CollisionEngine collisionEngine;
     private TileEngine tileEngine;
     private boolean onMovingPlatform;
+    private boolean fireBallHit;
+    private int fireBallTick;
 
     public Hero(Overlay overlay) {
         super();
@@ -45,6 +47,7 @@ public class Hero extends Mover {
 
     @Override
     public void act() {
+
         handleInput();
 
         if (!checkForMovingPlatform()) {
@@ -56,11 +59,20 @@ public class Hero extends Mover {
         }
 
         velocityX *= drag;
+        
+        if (fireBallTick >= 2 && !fireBallHit) {
+            fireBallHit = false;
+            fireBallTick = 0;
+        } else {
+            fireBallTick++;
+        }
 
         applyVelocity();
         checkForEnemy();
         checkForFireBall();
+
         checkForBlock();
+
     }
 
     public void checkForEnemy() {
@@ -81,9 +93,12 @@ public class Hero extends Mover {
 
     public void checkForFireBall() {
         for (FireBall enemy : getIntersectingObjects(FireBall.class)) {
-            if (enemy != null) {
+            if (enemy != null && !fireBallHit) {
+                System.out.println(getX());
+                System.out.println(getY());
+                fireBallHit = true;
                 died();
-                break;
+                return;
             }
         }
     }
@@ -154,7 +169,7 @@ public class Hero extends Mover {
 
                 if (Math.abs(overlapY) > 0 && Math.abs(overlapY) <= 30) {
                     velocityY = 0;
-                    if (player == 2){
+                    if (player == 2) {
                         overlapY += 1;
                     }
                     y += overlapY;
@@ -215,31 +230,17 @@ public class Hero extends Mover {
             isOnGround = false;
             return;
         }
-        //checks tile exacly under hero
-        for (Tile tile : getObjectsAtOffset(0, dy, Tile.class)) {
-            if (tile.isSolid) {
-                isOnGround = true;
-            }
-            break;
-        }
-        //checks if hero is on the edge of a block
-        if (!isOnGround) {
-            for (Tile tile : getObjectsAtOffset(dx - 3, dy, Tile.class)) {
+        //checks tile under hero
+        start:
+        for (int i = -1; i <= 1; i++) {
+            for (Tile tile : getObjectsAtOffset((dx * i) - (3 * i), dy, Tile.class)) {
                 if (tile.isSolid) {
                     isOnGround = true;
                 }
-                break;
-            }
-            if (!isOnGround) {
-                for (Tile tile : getObjectsAtOffset(dx * -1 + 3, dy, Tile.class)) {
-                    if (tile.isSolid) {
-                        isOnGround = true;
-                    }
-                    break;
-                }
+                break start;
             }
         }
-        if (onMovingPlatform) {
+        if (onMovingPlatform){
             isOnGround = true;
         }
     }
@@ -273,6 +274,11 @@ public class Hero extends Mover {
             velocityX = -20;
         } else if (Greenfoot.isKeyDown("d")) {
             velocityX = 20;
+        }
+        if (Greenfoot.isKeyDown("q")) {
+            System.out.println(getX());
+            System.out.println(getY());
+            System.out.println("");
         }
 
     }
