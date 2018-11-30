@@ -34,13 +34,13 @@ public abstract class Level extends World {
 
     public abstract void load();
 
-    public void create(int player, int heroSpawnX, int heroSpawnY) {
-        this.player = player;
+    public void create(int level, int heroSpawnX, int heroSpawnY) {
+        
 
         te = new TileEngine(this, 70, 70, this.map);
         Camera camera = new Camera(te);
         hero.setSpawn(heroSpawnX, heroSpawnY);
-        hero.setLevel(1);
+        hero.setLevel(level);
 
         camera.follow(hero);
         ce = new CollisionEngine(te, camera);

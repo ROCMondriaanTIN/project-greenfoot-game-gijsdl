@@ -23,6 +23,7 @@ public class LevelKeuzeObject extends Actor {
         this.level = level;
         this.speelbaar = speelbaar;
         this.player = speler;
+        
     }
 
     /**
@@ -37,7 +38,6 @@ public class LevelKeuzeObject extends Actor {
                 Start.worldRegistry.setLevel(level, Start.worldRegistry.getLevel(level).reset());
                 Start.worldRegistry.getLevel(level).player = player;
                 Start.worldRegistry.getLevel(level).load();
-                
 
             }
         }

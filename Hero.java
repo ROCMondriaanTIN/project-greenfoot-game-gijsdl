@@ -59,7 +59,7 @@ public class Hero extends Mover {
         }
 
         velocityX *= drag;
-        
+
         if (fireBallTick >= 2 && !fireBallHit) {
             fireBallHit = false;
             fireBallTick = 0;
@@ -146,7 +146,11 @@ public class Hero extends Mover {
                     overlay.addDiamant(getColor(tile));
                     DiamantsGot.getInstance().gotDiamand(level, tile.getColom(), tile.getRow());
                 } else if (tile.type == TileType.DOOROPEN) {
-                    Greenfoot.setWorld(new LevelKeuze(level + 1, player));
+                    if (level < 4) {
+                        Greenfoot.setWorld(new LevelKeuze(level + 1, player));
+                    }else{
+                        Greenfoot.setWorld(new EndScreen(diamonds, player));
+                    }
                 }
             }
         }
@@ -240,7 +244,7 @@ public class Hero extends Mover {
                 break start;
             }
         }
-        if (onMovingPlatform){
+        if (onMovingPlatform) {
             isOnGround = true;
         }
     }

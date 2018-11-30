@@ -10,7 +10,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class LevelKeuze extends World {
 
     int levelMax = 4;
-    int level = 1;
+    int level = 4;
     LevelKeuzeObject[] levelTrue = new LevelKeuzeObject[levelMax];
     LevelKeuzeObject[] levelfalse = new LevelKeuzeObject[levelMax];
     int y = 400;
@@ -27,11 +27,11 @@ public class LevelKeuze extends World {
         if (this.level < level) {
             this.level = level;
         }
-        for (int i = 0; i < level; i++) {
+        for (int i = 0; i < this.level; i++) {
             addObject(new LevelKeuzeObject(i + 1, true, player), x, y);
             x= x + 100;
         }
-        for (int i = level; i < levelMax; i++) {
+        for (int i = this.level; i < levelMax; i++) {
             addObject(new LevelKeuzeObject(i+1, false, player), x, y);
             x = x + 100;
         }
