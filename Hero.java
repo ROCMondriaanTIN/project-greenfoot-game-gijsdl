@@ -148,7 +148,7 @@ public class Hero extends Mover {
                 } else if (tile.type == TileType.DOOROPEN) {
                     if (level < 4) {
                         Greenfoot.setWorld(new LevelKeuze(level + 1, player));
-                    }else{
+                    } else {
                         Greenfoot.setWorld(new EndScreen(diamonds, player));
                     }
                 }
@@ -161,17 +161,23 @@ public class Hero extends Mover {
             if (platform != null) {
                 int bottom = getY() + getImage().getHeight() / 2;
                 int topPlatform = platform.getY() - platform.getImage().getHeight() / 2;
+                int top = getY() - getImage().getHeight() / 2;
+                int bottomPlatform = platform.getY() + platform.getImage().getHeight() / 2;
                 double overlapY = 0;
                 int y = getY();
                 int x = getX();
 
                 if (bottom > topPlatform && !onMovingPlatform) {
-                    if (velocityY >= 0) {
+                    System.out.println(Math.abs(topPlatform - bottom));
+                    System.out.println(Math.abs(top - bottomPlatform - 5));
+                    System.out.println("");
+                    if (velocityY >= 0 && Math.abs(topPlatform - bottom) < Math.abs(top - bottomPlatform)) {
+                        System.out.println("test");
                         overlapY = topPlatform - bottom;
                     }
                 }
-
-                if (Math.abs(overlapY) > 0 && Math.abs(overlapY) <= 30) {
+//&& Math.abs(overlapY) <= 30
+                if (Math.abs(overlapY) > 0) {
                     velocityY = 0;
                     if (player == 2) {
                         overlapY += 1;
@@ -179,16 +185,18 @@ public class Hero extends Mover {
                     y += overlapY;
                     setLocation(x, y);
                 }
+                if (Math.abs(topPlatform - bottom) < Math.abs(top - bottomPlatform)) {
 
-                if (platform.getHorizontal()) {
-                    velocityX = platform.getSpeed();
-                    handleInput();
-                } else if (bottom - 10 < topPlatform) {
-                    velocityY = platform.getSpeed();
-                    handleInput();
+                    if (platform.getHorizontal()) {
+                        velocityX = platform.getSpeed();
+                        handleInput();
+                    } else if (bottom - 10 < topPlatform) {
+                        velocityY = platform.getSpeed();
+                        handleInput();
+                    }
+                    onMovingPlatform = true;
+                    return true;
                 }
-                onMovingPlatform = true;
-                return true;
             }
         }
         onMovingPlatform = false;
