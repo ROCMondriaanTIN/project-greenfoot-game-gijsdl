@@ -23,6 +23,8 @@ public class EndScreenObject extends Actor
         if (Greenfoot.mouseClicked(this)) {
             if (!AllDiamonds){
                 Greenfoot.setWorld(new LevelKeuze(4,player));
+            }else{
+                Greenfoot.setWorld(new Start());
             }
         }
     }    

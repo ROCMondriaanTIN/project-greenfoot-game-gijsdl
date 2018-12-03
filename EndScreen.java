@@ -17,6 +17,15 @@ public class EndScreen extends World
         if(diamonds == 0){
             setBackground("chest_close.png");
             addObject(new EndScreenObject(false, player), 470, 750);
+        }else if (diamonds <  maxdiamonds /2){
+            setBackground("chest_open1.png");
+            addObject(new EndScreenObject(false, player), 470, 750);
+        }else if (diamonds < maxdiamonds){
+            setBackground("chest_open2.png");
+            addObject(new EndScreenObject(false, player), 470, 750);
+        }else if (diamonds >= maxdiamonds){
+            setBackground("chest_open3.png");
+            addObject(new EndScreenObject(true, player), 470, 750);
         }
     }
 }
