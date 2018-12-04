@@ -1,5 +1,6 @@
 
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.Random;
 
 /**
  *
@@ -15,6 +16,7 @@ public abstract class Level extends World {
     Camera camera;
     TileEngine te;
     public static boolean firstTime = true;
+    Random rand = new Random();
 
     /**
      * Constructor for objects of class MyWorld.
@@ -35,13 +37,17 @@ public abstract class Level extends World {
     public abstract void load();
 
     public void create(int level, int heroSpawnX, int heroSpawnY) {
-        
 
         te = new TileEngine(this, 70, 70, this.map);
         Camera camera = new Camera(te);
         hero.setSpawn(heroSpawnX, heroSpawnY);
         hero.setLevel(level);
-
+        
+        int mapWidth = te.MAP_WIDTH * te.TILE_WIDTH;
+        for (int i = 0; i < 10; i++) {
+            addObject(new Cloud(rand.nextInt(3) + 1, mapWidth), rand.nextInt(mapWidth), rand.nextInt(500));
+        }
+        
         camera.follow(hero);
         ce = new CollisionEngine(te, camera);
         addObject(camera, 0, 0);
@@ -50,8 +56,6 @@ public abstract class Level extends World {
         addObject(overlay, getWidth() / 2, getHeight() / 2);
         camera.act();
         hero.act();
-
-        
 
         ce.addCollidingMover(hero);
 

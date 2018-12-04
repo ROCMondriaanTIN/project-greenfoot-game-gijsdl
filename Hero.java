@@ -56,9 +56,10 @@ public class Hero extends Mover {
             if (velocityY > gravity) {
                 velocityY = gravity;
             }
+            velocityX *= drag;
         }
 
-        velocityX *= drag;
+        
 
         if (fireBallTick >= 2 && !fireBallHit) {
             fireBallHit = false;
@@ -169,7 +170,6 @@ public class Hero extends Mover {
 
                 if (bottom > topPlatform && !onMovingPlatform) {
                     if (velocityY >= 0 && Math.abs(topPlatform - bottom) < Math.abs(top - bottomPlatform)) {
-                        System.out.println("test");
                         overlapY = topPlatform - bottom;
                     }
                 }
