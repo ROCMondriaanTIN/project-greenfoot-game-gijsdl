@@ -59,8 +59,6 @@ public class Hero extends Mover {
             velocityX *= drag;
         }
 
-        
-
         if (fireBallTick >= 2 && !fireBallHit) {
             fireBallHit = false;
             fireBallTick = 0;
@@ -95,8 +93,6 @@ public class Hero extends Mover {
     public void checkForFireBall() {
         for (FireBall enemy : getIntersectingObjects(FireBall.class)) {
             if (enemy != null && !fireBallHit) {
-                System.out.println(getX());
-                System.out.println(getY());
                 fireBallHit = true;
                 died();
                 return;

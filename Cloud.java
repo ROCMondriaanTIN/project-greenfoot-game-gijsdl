@@ -10,11 +10,14 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Cloud extends Mover {
 
     private int mapWidth;
-    int speed = 17;
+    int speed = 5;
 
-    public Cloud(int cloud, int mapWidth) {
+    public Cloud(int cloud, int mapWidth, int direction) {
         setImage("cloud" + cloud + ".png");
         this.mapWidth = mapWidth;
+        if (direction == 1){
+            speed *= -1;
+        }
     }
 
     @Override
