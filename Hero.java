@@ -168,15 +168,12 @@ public class Hero extends Mover {
                 int x = getX();
 
                 if (bottom > topPlatform && !onMovingPlatform) {
-                    System.out.println(Math.abs(topPlatform - bottom));
-                    System.out.println(Math.abs(top - bottomPlatform - 5));
-                    System.out.println("");
                     if (velocityY >= 0 && Math.abs(topPlatform - bottom) < Math.abs(top - bottomPlatform)) {
                         System.out.println("test");
                         overlapY = topPlatform - bottom;
                     }
                 }
-//&& Math.abs(overlapY) <= 30
+
                 if (Math.abs(overlapY) > 0) {
                     velocityY = 0;
                     if (player == 2) {
