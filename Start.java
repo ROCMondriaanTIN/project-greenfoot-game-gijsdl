@@ -22,6 +22,7 @@ public class Start extends World {
         Greenfoot.start();;
         createObject();
         setLevels();
+        DiamantsGot.getInstance().reset();
 
     }
     

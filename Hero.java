@@ -59,10 +59,10 @@ public class Hero extends Mover {
             velocityX *= drag;
         }
 
-        if (fireBallTick >= 2 && !fireBallHit) {
+        if (fireBallTick >= 2 && fireBallHit) {
             fireBallHit = false;
             fireBallTick = 0;
-        } else {
+        } else if (fireBallHit) {
             fireBallTick++;
         }
 
@@ -285,7 +285,12 @@ public class Hero extends Mover {
             System.out.println(getY());
             System.out.println("");
         }
-
+        if (getX() < 0) {
+            velocityX = 1;
+        }
+        if (getX()> tileEngine.MAP_WIDTH * tileEngine.TILE_WIDTH){
+            velocityX = -1;
+        }
     }
 
     public void animationWalk(int width, int heigth) {

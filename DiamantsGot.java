@@ -45,5 +45,12 @@ public class DiamantsGot {
             te.removeTile(tile);
         }
     }
+    
+    public void reset(){
+        diamandMap1.clear();
+        diamandMap2.clear();
+        diamandMap3.clear();
+        diamandMap4.clear();
+    }
 
 }
