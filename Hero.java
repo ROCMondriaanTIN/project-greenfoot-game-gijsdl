@@ -78,7 +78,7 @@ public class Hero extends Mover {
         for (Enemy enemy : getIntersectingObjects(Enemy.class)) {
             if (enemy != null) {
                 if (!enemy.getImage().toString().contains("upside")) {
-                    if (velocityY > 1 && getY() + getImage().getHeight() / 2 < enemy.getX() - enemy.getImage().getHeight() / 2) {
+                    if (velocityY > 1 && getY() < enemy.getY()) {
                         enemy.dead();
                         velocityY = -10;
                     } else {

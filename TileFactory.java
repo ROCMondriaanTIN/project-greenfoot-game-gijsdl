@@ -531,7 +531,6 @@ public class TileFactory {
                 break;
             case 130:
                 tile = new Tile("snowCenter.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT);
-                tile.isSolid = true;
                 break;
             case 131:
                 tile = new Tile("snowCenter_rounded.png", TileEngine.TILE_WIDTH, TileEngine.TILE_HEIGHT);
