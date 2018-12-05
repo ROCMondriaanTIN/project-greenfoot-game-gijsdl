@@ -28,7 +28,8 @@ public class Hero extends Mover {
     private GreenfootImage playerJump;
     private CollisionEngine collisionEngine;
     private TileEngine tileEngine;
-    private boolean onMovingPlatform;
+    private boolean onMovingPlatformY;
+    private boolean onMovingPlatformX;
     private boolean fireBallHit;
     private int fireBallTick;
 
@@ -56,7 +57,10 @@ public class Hero extends Mover {
             if (velocityY > gravity) {
                 velocityY = gravity;
             }
-            velocityX *= drag;
+           
+        }
+        if(!onMovingPlatformX){
+             velocityX *= drag;
         }
 
         if (fireBallTick >= 2 && fireBallHit) {
@@ -164,7 +168,7 @@ public class Hero extends Mover {
                 int y = getY();
                 int x = getX();
 
-                if (bottom > topPlatform && !onMovingPlatform) {
+                if (bottom > topPlatform && !onMovingPlatformY) {
                     if (velocityY >= 0 && Math.abs(topPlatform - bottom) < Math.abs(top - bottomPlatform)) {
                         overlapY = topPlatform - bottom;
                     }
@@ -182,17 +186,19 @@ public class Hero extends Mover {
 
                     if (platform.getHorizontal()) {
                         velocityX = platform.getSpeed();
+                        onMovingPlatformX = true;
                         handleInput();
                     } else if (bottom - 10 < topPlatform) {
                         velocityY = platform.getSpeed();
                         handleInput();
                     }
-                    onMovingPlatform = true;
+                    onMovingPlatformY = true;
                     return true;
                 }
             }
         }
-        onMovingPlatform = false;
+        onMovingPlatformX = false;
+        onMovingPlatformY = false;
         return false;
     }
 
@@ -231,7 +237,7 @@ public class Hero extends Mover {
         int dy = getImage().getHeight() / 2 + 1;
 
         //checks if here is not going up or down
-        if (velocityY != 0 && !onMovingPlatform) {
+        if (velocityY != 0 && !onMovingPlatformY) {
             isOnGround = false;
             return;
         }
@@ -245,7 +251,7 @@ public class Hero extends Mover {
                 break start;
             }
         }
-        if (onMovingPlatform) {
+        if (onMovingPlatformY) {
             isOnGround = true;
         }
     }

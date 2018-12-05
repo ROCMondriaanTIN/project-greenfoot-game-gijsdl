@@ -16,7 +16,7 @@ public abstract class Level extends World {
     Camera camera;
     TileEngine te;
     public static boolean firstTime = true;
-    Random rand = new Random();
+    protected Random rand = new Random();
 
     /**
      * Constructor for objects of class MyWorld.
@@ -43,10 +43,7 @@ public abstract class Level extends World {
         hero.setSpawn(heroSpawnX, heroSpawnY);
         hero.setLevel(level);
         
-        int mapWidth = te.MAP_WIDTH * te.TILE_WIDTH;
-        for (int i = 0; i < 10; i++) {
-            addObject(new Cloud(rand.nextInt(3) + 1, mapWidth, rand.nextInt(2)), rand.nextInt(mapWidth), rand.nextInt(500));
-        }
+      
         
         camera.follow(hero);
         ce = new CollisionEngine(te, camera);

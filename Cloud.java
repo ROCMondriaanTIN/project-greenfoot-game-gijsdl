@@ -1,5 +1,6 @@
 
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.Random;
 
 /**
  * Write a description of class cloud here.
@@ -7,13 +8,16 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name)
  * @version (a version number or a date)
  */
+
 public class Cloud extends Mover {
 
     private int mapWidth;
-    int speed = 5;
+    private Random rand = new Random();
+    int speed = rand.nextInt(8)+2;
 
     public Cloud(int cloud, int mapWidth, int direction) {
         setImage("cloud" + cloud + ".png");
+        getImage().setTransparency(180);
         this.mapWidth = mapWidth;
         if (direction == 1){
             speed *= -1;
