@@ -9,7 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class EndScreen extends World
 {
 
-   int maxdiamonds = 8;
+   int maxdiamonds = 14;
     
     public EndScreen(int diamonds, int player)
     {    

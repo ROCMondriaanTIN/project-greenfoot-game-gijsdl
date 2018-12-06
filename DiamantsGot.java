@@ -10,6 +10,9 @@ public class DiamantsGot {
     private ArrayList<Tile> diamandMap2 = new ArrayList<>();
     private ArrayList<Tile> diamandMap3 = new ArrayList<>();
     private ArrayList<Tile> diamandMap4 = new ArrayList<>();
+    private ArrayList<Tile> diamandMap5 = new ArrayList<>();
+    private ArrayList<Tile> diamandMap6 = new ArrayList<>();
+    private ArrayList<Tile> diamandMap7 = new ArrayList<>();
     private Map<Integer, ArrayList> diamand = new HashMap();
 
     private DiamantsGot() {
@@ -17,6 +20,9 @@ public class DiamantsGot {
         diamand.put(2, diamandMap2);
         diamand.put(3, diamandMap3);
         diamand.put(4, diamandMap4);
+        diamand.put(5, diamandMap5);
+        diamand.put(6, diamandMap6);
+        diamand.put(7, diamandMap7);
     }
 
     //static block initialization for exception handling
@@ -51,6 +57,9 @@ public class DiamantsGot {
         diamandMap2.clear();
         diamandMap3.clear();
         diamandMap4.clear();
+        diamandMap5.clear();
+        diamandMap6.clear();
+        diamandMap7.clear();
     }
 
 }

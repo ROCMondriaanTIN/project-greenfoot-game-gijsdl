@@ -45,6 +45,9 @@ public class Start extends World {
         worldRegistry.registerLevel(2, new Level2());
         worldRegistry.registerLevel(3, new Level3());
         worldRegistry.registerLevel(4, new Level4());
+        worldRegistry.registerLevel(5, new Level5());
+        worldRegistry.registerLevel(6, new Level6());
+        worldRegistry.registerLevel(7, new Level7());
         
     }
 }

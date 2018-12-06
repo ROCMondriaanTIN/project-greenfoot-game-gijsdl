@@ -9,8 +9,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class LevelKeuze extends World {
 
-    int levelMax = 4;
-    int level = 4;
+    int levelMax = 7;
+    int level = 7;
     LevelKeuzeObject[] levelTrue = new LevelKeuzeObject[levelMax];
     LevelKeuzeObject[] levelfalse = new LevelKeuzeObject[levelMax];
     int y = 400;
@@ -35,11 +35,6 @@ public class LevelKeuze extends World {
             addObject(new LevelKeuzeObject(i+1, false, player), x, y);
             x = x + 100;
         }
-        
-    }
-
-    @Override
-    public void act() {
-        
+        addObject(new LevelKeuzeObject(true), 900, 50);
     }
 }

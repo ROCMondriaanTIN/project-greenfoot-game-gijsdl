@@ -28,7 +28,7 @@ public class Hero extends Mover {
     private GreenfootImage playerJump;
     private CollisionEngine collisionEngine;
     private TileEngine tileEngine;
-    private boolean onMovingPlatformY;
+    private boolean onMovingPlatform;
     private boolean onMovingPlatformX;
     private boolean fireBallHit;
     private int fireBallTick;
@@ -57,10 +57,10 @@ public class Hero extends Mover {
             if (velocityY > gravity) {
                 velocityY = gravity;
             }
-           
+
         }
-        if(!onMovingPlatformX){
-             velocityX *= drag;
+        if (!onMovingPlatformX) {
+            velocityX *= drag;
         }
 
         if (fireBallTick >= 2 && fireBallHit) {
@@ -147,7 +147,7 @@ public class Hero extends Mover {
                     overlay.addDiamant(getColor(tile));
                     DiamantsGot.getInstance().gotDiamand(level, tile.getColom(), tile.getRow());
                 } else if (tile.type == TileType.DOOROPEN) {
-                    if (level < 4) {
+                    if (level < 7) {
                         Greenfoot.setWorld(new LevelKeuze(level + 1, player));
                     } else {
                         Greenfoot.setWorld(new EndScreen(diamonds, player));
@@ -168,7 +168,7 @@ public class Hero extends Mover {
                 int y = getY();
                 int x = getX();
 
-                if (bottom > topPlatform && !onMovingPlatformY) {
+                if (bottom > topPlatform && !onMovingPlatform) {
                     if (velocityY >= 0 && Math.abs(topPlatform - bottom) < Math.abs(top - bottomPlatform)) {
                         overlapY = topPlatform - bottom;
                     }
@@ -192,13 +192,13 @@ public class Hero extends Mover {
                         velocityY = platform.getSpeed();
                         handleInput();
                     }
-                    onMovingPlatformY = true;
+                    onMovingPlatform = true;
                     return true;
                 }
             }
         }
         onMovingPlatformX = false;
-        onMovingPlatformY = false;
+        onMovingPlatform = false;
         return false;
     }
 
@@ -237,7 +237,7 @@ public class Hero extends Mover {
         int dy = getImage().getHeight() / 2 + 1;
 
         //checks if here is not going up or down
-        if (velocityY != 0 && !onMovingPlatformY) {
+        if (velocityY != 0 && !onMovingPlatform) {
             isOnGround = false;
             return;
         }
@@ -251,7 +251,7 @@ public class Hero extends Mover {
                 break start;
             }
         }
-        if (onMovingPlatformY) {
+        if (onMovingPlatform) {
             isOnGround = true;
         }
     }
@@ -287,14 +287,13 @@ public class Hero extends Mover {
             velocityX = 20;
         }
         if (Greenfoot.isKeyDown("q")) {
-            System.out.println(getX());
-            System.out.println(getY());
+            System.out.println(getX() + ", " + getY());
             System.out.println("");
         }
         if (getX() < 0) {
             velocityX = 1;
         }
-        if (getX()> tileEngine.MAP_WIDTH * tileEngine.TILE_WIDTH){
+        if (getX() > tileEngine.MAP_WIDTH * tileEngine.TILE_WIDTH) {
             velocityX = -1;
         }
     }

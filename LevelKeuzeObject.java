@@ -11,9 +11,15 @@ public class LevelKeuzeObject extends Actor {
 
     private int level;
     private boolean speelbaar;
+    private boolean character;
     private int player;
 
-    public LevelKeuzeObject(int level, boolean speelbaar, int speler) {
+    public LevelKeuzeObject(boolean character) {
+        setImage("kiesCharButton.png");
+        this.character = character;
+    }
+
+    public LevelKeuzeObject(int level, boolean speelbaar, int player) {
 
         if (speelbaar) {
             setImage("Level/level" + level + ".png");
@@ -22,7 +28,7 @@ public class LevelKeuzeObject extends Actor {
         }
         this.level = level;
         this.speelbaar = speelbaar;
-        this.player = speler;
+        this.player = player;
         
     }
 
@@ -39,6 +45,11 @@ public class LevelKeuzeObject extends Actor {
                 Start.worldRegistry.getLevel(level).player = player;
                 Start.worldRegistry.getLevel(level).load();
 
+            }
+        }
+        if(character){
+            if (Greenfoot.mouseClicked(this)) {
+                Greenfoot.setWorld(new ChooseChar());
             }
         }
     }
