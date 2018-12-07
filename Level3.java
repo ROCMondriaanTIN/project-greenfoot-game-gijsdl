@@ -83,11 +83,16 @@ public class Level3 extends Level {
         addObject(new FireBall(), 5656, 1931);
         addObject(new FireBall(), 5707, 2984);
         addObject(new FireBall(), 4031, 1585);
+
         addObject(new Enemy(200), 1051, 2574);
         addObject(new Enemy(200), 2093, 1384);
         addObject(new Enemy(200), 3121, 3134);
         addObject(new Enemy(200), 5229, 2854);
 
+        int mapWidth = te.MAP_WIDTH * te.TILE_WIDTH;
+        for (int i = 0; i < 10; i++) {
+            addObject(new Cloud(rand.nextInt(3) + 1, mapWidth, rand.nextInt(2)), rand.nextInt(mapWidth), rand.nextInt(100)+ 800);
+        }
 
         DiamantsGot.getInstance().removeDiamants(te, 3);
     }
