@@ -115,6 +115,7 @@ public class Hero extends Mover {
                     break;
                 } else if (tile.type == TileType.GOLDCOIN) {
                     tileEngine.removeTile(tile);
+                    Greenfoot.playSound("goldCoin.wav");
                     coin += 2;
                     coinCheck();
                     if (coin != 0) {
@@ -123,6 +124,7 @@ public class Hero extends Mover {
                     break;
                 } else if (tile.type == TileType.SILVERCOIN) {
                     tileEngine.removeTile(tile);
+                    Greenfoot.playSound("silverCoin.wav");
                     coin += 1;
                     coinCheck();
                     if (coin != 0) {
@@ -131,6 +133,7 @@ public class Hero extends Mover {
                     break;
                 } else if (tile.type == TileType.KEY) {
                     tileEngine.removeTile(tile);
+                    Greenfoot.playSound("key.wav");
                     hasKey = true;
                     overlay.gotKey(getColor(tile));
                     break;
@@ -143,12 +146,14 @@ public class Hero extends Mover {
                     break;
                 } else if (tile.type == TileType.GEM) {
                     tileEngine.removeTile(tile);
+                    Greenfoot.playSound("diamond.wav");
                     diamonds++;
                     overlay.addDiamant(getColor(tile));
                     DiamantsGot.getInstance().gotDiamand(level, tile.getColom(), tile.getRow());
                 } else if (tile.type == TileType.DOOROPEN) {
                     if (level < 7) {
                         Greenfoot.setWorld(new LevelKeuze(level + 1, player));
+                        Greenfoot.playSound("fanfare.wav");
                     } else {
                         Greenfoot.setWorld(new EndScreen(diamonds, player));
                     }
@@ -216,6 +221,7 @@ public class Hero extends Mover {
 
     public void died() {
         lives--;
+        Greenfoot.playSound("au.wav");
         if (lives > 0) {
             setLocation(spawnX, spawnY);
             overlay.removeLive();
@@ -278,18 +284,18 @@ public class Hero extends Mover {
         } else {
             animationStand(getWidth(), getHeight());
         }
-        if (Greenfoot.isKeyDown("w")) {
-            velocityY = -20;
-        }
-        if (Greenfoot.isKeyDown("a")) {
-            velocityX = -20;
-        } else if (Greenfoot.isKeyDown("d")) {
-            velocityX = 20;
-        }
-        if (Greenfoot.isKeyDown("q")) {
-            System.out.println(getX() + ", " + getY());
-            System.out.println("");
-        }
+//        if (Greenfoot.isKeyDown("w")) {
+//            velocityY = -20;
+//        }
+//        if (Greenfoot.isKeyDown("a")) {
+//            velocityX = -20;
+//        } else if (Greenfoot.isKeyDown("d")) {
+//            velocityX = 20;
+//        }
+//        if (Greenfoot.isKeyDown("q")) {
+//            System.out.println(getX() + ", " + getY());
+//            System.out.println("");
+//        }
         if (getX() < 0) {
             velocityX = 1;
         }
