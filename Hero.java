@@ -11,7 +11,6 @@ public class Hero extends Mover {
     private double gravity;
     private double acc;
     private double drag;
-    private boolean isOnGround;
     private int walkStatus = 0;
     private int status = 0;
     private String direction = "right";
@@ -238,13 +237,12 @@ public class Hero extends Mover {
         }
     }
 
-    private boolean onGround() {
+    private boolean isOnGround() {
         int dx = getImage().getWidth() / 2;
         int dy = getImage().getHeight() / 2 + 1;
 
         //checks if here is not going up or down
         if (velocityY != 0 && !onMovingPlatform) {
-            isOnGround = false;
             return false;
         }
         //checks tile under hero
@@ -252,24 +250,22 @@ public class Hero extends Mover {
         for (int i = -1; i <= 1; i++) {
             for (Tile tile : getObjectsAtOffset((dx * i) - (3 * i), dy, Tile.class)) {
                 if (tile.isSolid) {
-                    isOnGround = true;
                     return true;
                 }
                 break start;
             }
         }
         if (onMovingPlatform) {
-            isOnGround = true;
             return true;
         }
         return false;
     }
 
     public void handleInput() {
-        onGround();
+        isOnGround();
         if (Greenfoot.isKeyDown("space")) {
 
-            if (onGround()) {
+            if (isOnGround()) {
                 velocityY = -17;
                 animationJump(getWidth(), getHeight());
             }
@@ -314,7 +310,7 @@ public class Hero extends Mover {
                 walkStatus = 0;
             }
 
-            if (onGround()) {
+            if (isOnGround()) {
                 setImage(new GreenfootImage(playerWalk[walkStatus]));
             } else {
                 setImage(new GreenfootImage(playerJump));
@@ -336,7 +332,7 @@ public class Hero extends Mover {
     }
 
     public void animationStand(int width, int heigth) {
-        if (onGround()) {
+        if (isOnGround()) {
             setImage(new GreenfootImage(playerWalk[0]));
 
             walkStatus = 0;
