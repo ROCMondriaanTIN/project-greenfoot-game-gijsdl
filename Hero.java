@@ -238,14 +238,14 @@ public class Hero extends Mover {
         }
     }
 
-    private void updateOnGroundStats() {
+    private boolean onGround() {
         int dx = getImage().getWidth() / 2;
         int dy = getImage().getHeight() / 2 + 1;
 
         //checks if here is not going up or down
         if (velocityY != 0 && !onMovingPlatform) {
             isOnGround = false;
-            return;
+            return false;
         }
         //checks tile under hero
         start:
@@ -253,20 +253,23 @@ public class Hero extends Mover {
             for (Tile tile : getObjectsAtOffset((dx * i) - (3 * i), dy, Tile.class)) {
                 if (tile.isSolid) {
                     isOnGround = true;
+                    return true;
                 }
                 break start;
             }
         }
         if (onMovingPlatform) {
             isOnGround = true;
+            return true;
         }
+        return false;
     }
 
     public void handleInput() {
-        updateOnGroundStats();
+        onGround();
         if (Greenfoot.isKeyDown("space")) {
 
-            if (isOnGround) {
+            if (onGround()) {
                 velocityY = -17;
                 animationJump(getWidth(), getHeight());
             }
@@ -311,7 +314,7 @@ public class Hero extends Mover {
                 walkStatus = 0;
             }
 
-            if (isOnGround) {
+            if (onGround()) {
                 setImage(new GreenfootImage(playerWalk[walkStatus]));
             } else {
                 setImage(new GreenfootImage(playerJump));
@@ -333,7 +336,7 @@ public class Hero extends Mover {
     }
 
     public void animationStand(int width, int heigth) {
-        if (isOnGround) {
+        if (onGround()) {
             setImage(new GreenfootImage(playerWalk[0]));
 
             walkStatus = 0;
