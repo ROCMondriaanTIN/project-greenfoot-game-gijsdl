@@ -37,4 +37,8 @@ public class LevelKeuze extends World {
         }
         addObject(new LevelKeuzeObject(true), 900, 50);
     }
+    
+    public static void reset(){
+        level = 1;
+    }
 }

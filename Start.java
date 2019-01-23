@@ -48,6 +48,6 @@ public class Start extends World {
         worldRegistry.registerLevel(5, new Level5());
         worldRegistry.registerLevel(6, new Level6());
         worldRegistry.registerLevel(7, new Level7());
-        
+        LevelKeuze.reset();
     }
 }
